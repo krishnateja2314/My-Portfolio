@@ -1,20 +1,33 @@
 import fs from 'fs';
 import path from 'path';
 import matter from 'gray-matter';
+export type BlogMeta = {
+  slug: string;
+  title: string;
+  date: string;
+  tags: string[];
+  images: string[]; 
+  excerpt: string;
+  readingTime: string;
+};
 
-const blogDirectory = path.join(process.cwd(), 'content/blog');
-
-export function getAllBlogs() {
-  const files = fs.readdirSync(blogDirectory);
+export function getAllBlogs(): BlogMeta[] {
+  const postsDir = path.join(process.cwd(), "content", "blog");
+  const files = fs.readdirSync(postsDir);
 
   return files.map((filename) => {
-    const filePath = path.join(blogDirectory, filename);
-    const fileContent = fs.readFileSync(filePath, 'utf8');
+    const filePath = path.join(postsDir, filename);
+    const fileContent = fs.readFileSync(filePath, "utf8");
     const { data } = matter(fileContent);
 
     return {
-      ...data,
-      slug: data.slug || filename.replace(/\.mdx?$/, ''),
+      slug: filename.replace(/\.mdx?$/, ""),
+      title: data.title,
+      date: data.date,
+      tags: data.tags || [],
+      images: data.images,
+      excerpt: data.excerpt,
+      readingTime: data.readingTime,
     };
   });
 }

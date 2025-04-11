@@ -63,6 +63,7 @@ export default function ContactPage() {
       toast.error("Error sending message", {
         description: "Something went wrong. Try again later.",
       });
+      console.error("Error:", error);
     }
 
     toast.success("Message sent!", {

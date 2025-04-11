@@ -9,7 +9,6 @@ import { ArrowLeft, Calendar, ExternalLink, Github } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { ProjectMeta } from "@/lib/projects";
-import { MDXRemote } from "next-mdx-remote/rsc";
 
 export default function ProjectView({
   project,

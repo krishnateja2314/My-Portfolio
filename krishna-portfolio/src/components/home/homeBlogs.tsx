@@ -5,8 +5,16 @@ import Image from "next/image";
 import { ArrowRight, Clock } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
+interface BlogMeta {
+  slug: string;
+  title: string;
+  date: string;
+  tags: string[];
+  readingTime?: string;
+  images?: string[];
+}
 
-export default function HomeClient({ blogs }: { blogs: any[] }) {
+export default function HomeClient({ blogs }: { blogs: BlogMeta[] }) {
   return (
     <section className="container px-4 md:px-6">
       <div className="space-y-2">

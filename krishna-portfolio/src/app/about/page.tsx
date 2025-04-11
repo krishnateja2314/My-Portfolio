@@ -123,7 +123,7 @@ export default function AboutPage() {
         </div>
 
         <div className="flex flex-wrap gap-2">
-          {skills.map((skill, i) => (
+          {skills.map((skill) => (
             <motion.div key={skill} variants={item}>
               <Badge variant="secondary" className="px-3 py-1 text-sm">
                 {skill}
