@@ -22,18 +22,20 @@ export default function AboutPage() {
   };
 
   const skills = [
-    "React",
     "Next.js",
+    "React",
     "TypeScript",
     "JavaScript",
-    "Tailwind CSS",
+    "FastAPI",
     "Node.js",
-    "HTML",
-    "CSS",
+    "MySQL",
+    "MongoDB",
+    "Hugo",
+    "Tailwind CSS",
     "Git",
-    "Figma",
-    "UI/UX",
-    "Responsive Design",
+    "Netlify",
+    "Vercel",
+    "express.js",
   ];
 
   return (
@@ -50,29 +52,42 @@ export default function AboutPage() {
               About Me
             </h1>
             <p className="mt-4 text-muted-foreground">
-              Get to know more about my background, skills, and passion for
-              creating amazing web experiences.
+              A little more about who I am, what I do, and how I got here.
             </p>
           </div>
 
           <div className="space-y-4">
             <h2 className="text-2xl font-semibold">My Story</h2>
             <p className="leading-relaxed">
-              Hello! I&apos;m a passionate web developer with a keen eye for
-              design and a love for creating intuitive, user-friendly
-              experiences. My journey in web development began several years
-              ago, and I&apos;ve been honing my skills ever since.
+              Ever since my dad brought home a laptop, I’ve been hooked on
+              gaming. From puzzles to boss fights, games have always been more
+              than entertainment they’ve shaped how I think, solve problems, and
+              approach challenges. I genuinely believe gaming sharpened my
+              critical thinking from a young age.
             </p>
             <p className="leading-relaxed">
-              I specialize in building modern web applications using React,
-              Next.js, and TypeScript. I&apos;m passionate about clean code,
-              accessibility, and creating performant web experiences that
-              delight users.
+              I got my PS4 in 9th grade right when the world was hit by COVID.
+              For a kid who loved games, it was a dream come true. I played a
+              lot during 9th and 10th, but when 11th grade hit, a switch
+              flipped. I realized gaming wouldn’t get me anywhere unless I
+              focused. That’s when I made a decision I’m going to crack IIT.
             </p>
             <p className="leading-relaxed">
-              When I&apos;m not coding, you can find me exploring new
-              technologies, contributing to open-source projects, or enjoying
-              the outdoors.
+              With my dad always pushing me to aim higher and the puzzle-solving
+              mindset gaming gave me, I made it. I cracked into{" "}
+              <span className="font-semibold">IIT Hyderabad</span> , and from
+              there, a new chapter began: development.
+            </p>
+            <p className="leading-relaxed">
+              I started learning web dev during my semester break not from
+              courses, but from YouTube. That curiosity turned into passion. I
+              joined the Lambda web dev club, built sites for Diesta and
+              Cepheid, and created a full-stack cricket scoring app for our DBMS
+              project.
+            </p>
+            <p className="leading-relaxed">
+              Today, I’m still gaming. But now I’m also building. Creating.
+              Learning. That balance of play and purpose is what keeps me going.
             </p>
           </div>
         </motion.div>
@@ -85,8 +100,8 @@ export default function AboutPage() {
         >
           <div className="relative aspect-square w-full max-w-md overflow-hidden rounded-2xl border">
             <Image
-              src="/placeholder.svg?height=600&width=600&text=About+Me"
-              alt="About Me"
+              src="/about.jpg"
+              alt="Krishna Teja"
               fill
               className="object-cover"
             />
@@ -98,13 +113,12 @@ export default function AboutPage() {
         variants={container}
         initial="hidden"
         whileInView="show"
-        viewport={{ once: true }}
         className="mt-16 space-y-8"
       >
         <div>
           <h2 className="text-2xl font-semibold">Skills & Expertise</h2>
           <p className="mt-2 text-muted-foreground">
-            Technologies and tools I work with
+            Technologies and tools I use regularly
           </p>
         </div>
 
@@ -124,9 +138,11 @@ export default function AboutPage() {
               <CardContent className="pt-6">
                 <h3 className="font-semibold mb-2">Education</h3>
                 <p className="text-sm text-muted-foreground">
-                  Bachelor&apos;s Degree in Computer Science
+                  B.Tech in Computer Science & Engineering
                   <br />
-                  University Name, 2018-2022
+                  Indian Institute of Technology Hyderabad (2023–2027)
+                  <br />
+                  Sri Chaitanya Junior College, Hyderabad (2021–2023)
                 </p>
               </CardContent>
             </Card>
@@ -137,9 +153,11 @@ export default function AboutPage() {
               <CardContent className="pt-6">
                 <h3 className="font-semibold mb-2">Experience</h3>
                 <p className="text-sm text-muted-foreground">
-                  Frontend Developer at Company Name
+                  Web Intern @ Noted (Feb 2025 – Present)
                   <br />
-                  2022 - Present
+                  Web Dev Lead @ Diesta Club, IITH
+                  <br />
+                  Core Dev @ Lambda Web Dev Club
                 </p>
               </CardContent>
             </Card>
@@ -150,9 +168,11 @@ export default function AboutPage() {
               <CardContent className="pt-6">
                 <h3 className="font-semibold mb-2">Certifications</h3>
                 <p className="text-sm text-muted-foreground">
-                  Web Development Certification
+                  Self-taught via YouTube & open-source projects.
                   <br />
-                  UI/UX Design Fundamentals
+                  Constantly learning by building.
+                  <br />
+                  Exploring new tech and tools.
                 </p>
               </CardContent>
             </Card>
