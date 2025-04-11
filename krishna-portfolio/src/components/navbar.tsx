@@ -34,7 +34,7 @@ export default function Navbar() {
   return (
     <header
       className={cn(
-        "sticky top-0 z-50 w-full transition-all duration-300",
+        "sticky top-0 z-50 w-full flex flex-col items-center transition-all duration-300",
         scrolled
           ? "bg-background/80 backdrop-blur-md shadow-sm"
           : "bg-background"

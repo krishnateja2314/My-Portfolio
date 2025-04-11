@@ -25,8 +25,12 @@ export default function HomeClient({ blogs }: { blogs: any[] }) {
         ))}
         <div className="mt-4">
           <Button variant="outline" asChild>
-            <Link href="/blog">
-              Read All Blogs <ArrowRight className="ml-2 h-4 w-4" />
+            <Link
+              href="/blog"
+              className="group inline-flex items-center transition-all"
+            >
+              Read All Blogs
+              <ArrowRight className="ml-2 h-4 w-4 transform transition-transform duration-300 group-hover:translate-x-1" />
             </Link>
           </Button>
         </div>

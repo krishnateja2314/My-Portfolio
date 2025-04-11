@@ -57,8 +57,12 @@ export default function IntroHero() {
                   <Link href="/projects">View Projects</Link>
                 </Button>
                 <Button variant="outline" size="lg" asChild>
-                  <Link href="/contact">
-                    Contact Me <ArrowRight className="ml-2 h-4 w-4" />
+                  <Link
+                    href="/contact"
+                    className="group inline-flex items-center transition-all"
+                  >
+                    Contact Me
+                    <ArrowRight className="ml-2 h-4 w-4 transform transition-transform duration-300 group-hover:translate-x-1" />
                   </Link>
                 </Button>
               </div>
@@ -96,21 +100,21 @@ export default function IntroHero() {
           {[
             {
               icon: <Code className="h-5 w-5 text-primary" />,
-              title: "Fullstack Dev",
-              desc: "I build powerful web apps from front to back.",
-              tech: "Next.js, React, FastAPI, MongoDB, MySQL, Tailwind CSS",
+              title: "Fullstack Engineering",
+              desc: "I build scalable fullstack apps with both frontend polish and backend power.",
+              tech: "Next.js, React, FastAPI, Node.js, MySQL, MongoDB, REST APIs",
             },
             {
               icon: <Layers className="h-5 w-5 text-primary" />,
-              title: "Dev + Design Fusion",
-              desc: "Functional *and* aesthetic interfaces.",
-              tech: "Hugo, Figma, Accessible Design",
+              title: "CMS + Static Site Dev",
+              desc: "From event portals to club sites — I've built fast static sites with real-world content teams.",
+              tech: "Hugo, Markdown, Netlify, Excel-as-DB, Git-based CMS",
             },
             {
               icon: <Zap className="h-5 w-5 text-primary" />,
-              title: "Speed + Simplicity",
-              desc: "Optimized for fast, smooth, SEO-friendly performance.",
-              tech: "Netlify, Nginx, Lighthouse best practices",
+              title: "Performance & SEO",
+              desc: "I care about clean structure, fast loads, and discoverability.I do something unique in every project.",
+              tech: "structured SEO, Nginx, responsive & accessible UIs",
             },
           ].map((itemProps, idx) => (
             <motion.div variants={item} key={idx}>

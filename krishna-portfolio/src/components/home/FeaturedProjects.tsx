@@ -71,8 +71,12 @@ export default function FeaturedProjects({
 
         <div className="flex justify-center mt-6">
           <Button variant="outline" asChild>
-            <Link href="/projects">
-              View All Projects <ArrowRight className="ml-2 h-4 w-4" />
+            <Link
+              href="/projects"
+              className="group inline-flex items-center transition-all"
+            >
+              View All Projects{" "}
+              <ArrowRight className="ml-2 h-4 w-4 transform transition-transform duration-300 group-hover:translate-x-1" />
             </Link>
           </Button>
         </div>

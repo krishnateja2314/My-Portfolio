@@ -22,7 +22,7 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body
-        className={`${inter.className} antialiased flex flex-col items-center justify-center`}
+        className={`${inter.className} antialiased flex flex-col  items-center justify-center`}
       >
         <Toaster />
         <ThemeProvider
@@ -31,7 +31,7 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          <div className="flex min-h-screen flex-col">
+          <div className="flex w-full  items-center min-h-screen flex-col">
             <Navbar />
             <main className="flex-1">{children}</main>
             <Footer />
