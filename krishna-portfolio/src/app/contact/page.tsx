@@ -1,7 +1,5 @@
 "use client";
 
-import type React from "react";
-
 import { useState } from "react";
 import { motion } from "framer-motion";
 import { Mail, MapPin, Phone, Send } from "lucide-react";
@@ -32,7 +30,40 @@ export default function ContactPage() {
     setIsSubmitting(true);
 
     // Simulate form submission
-    await new Promise((resolve) => setTimeout(resolve, 1000));
+    try {
+      const response = await fetch("https://formspree.io/f/xpwpbzar", {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      });
+
+      const result = await response.json();
+
+      if (result.ok || response.status === 200) {
+        toast.success("Message sent!", {
+          description: "Thank you for your message. I'll get back to you soon.",
+        });
+
+        setFormData({
+          name: "",
+          email: "",
+          subject: "",
+          message: "",
+        });
+      } else {
+        toast.error("Failed to send message", {
+          description:
+            result?.errors?.[0]?.message || "Please try again later.",
+        });
+      }
+    } catch (error) {
+      toast.error("Error sending message", {
+        description: "Something went wrong. Try again later.",
+      });
+    }
 
     toast.success("Message sent!", {
       description: "Thank you for your message. I'll get back to you soon.",
@@ -48,17 +79,20 @@ export default function ContactPage() {
   };
 
   return (
-    <div className="container py-12 px-4 md:px-6 md:py-16">
+    <div className="container py-16 px-4 md:px-8">
+      {/* Header */}
       <div className="space-y-2 text-center">
-        <h1 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl">
+        <h1 className="text-4xl font-bold tracking-tight sm:text-5xl">
           Contact Me
         </h1>
-        <p className="mx-auto max-w-[700px] text-muted-foreground md:text-lg">
-          Have a question or want to work together? Get in touch!
+        <p className="mx-auto max-w-2xl text-muted-foreground text-base md:text-lg">
+          Have a question or want to collaborate? Feel free to drop a message!
         </p>
       </div>
 
-      <div className="mx-auto mt-12 grid max-w-5xl gap-8 md:grid-cols-2">
+      {/* Content Grid */}
+      <div className="mx-auto mt-12 grid max-w-5xl gap-10 md:grid-cols-2">
+        {/* Contact Info */}
         <motion.div
           initial={{ opacity: 0, x: -20 }}
           animate={{ opacity: 1, x: 0 }}
@@ -67,11 +101,9 @@ export default function ContactPage() {
         >
           <div>
             <h2 className="text-2xl font-semibold">Get In Touch</h2>
-            <p className="mt-2 text-muted-foreground">
-              Feel free to reach out if you have any questions or if you&apos;d
-              like to work together. I&apos;m always open to discussing new
-              projects, creative ideas, or opportunities to be part of your
-              vision.
+            <p className="mt-2 text-muted-foreground leading-relaxed">
+              I’m open to freelance projects, internships, collaborations, and
+              all things web. Let’s build something cool together.
             </p>
           </div>
 
@@ -80,7 +112,7 @@ export default function ContactPage() {
               <MapPin className="mr-3 h-5 w-5 text-primary" />
               <div>
                 <h3 className="font-medium">Location</h3>
-                <p className="text-muted-foreground">San Francisco, CA</p>
+                <p className="text-muted-foreground">Hyderabad, India</p>
               </div>
             </div>
 
@@ -88,7 +120,9 @@ export default function ContactPage() {
               <Mail className="mr-3 h-5 w-5 text-primary" />
               <div>
                 <h3 className="font-medium">Email</h3>
-                <p className="text-muted-foreground">hello@example.com</p>
+                <p className="text-muted-foreground">
+                  cs23btech11028@iith.ac.in
+                </p>
               </div>
             </div>
 
@@ -96,12 +130,13 @@ export default function ContactPage() {
               <Phone className="mr-3 h-5 w-5 text-primary" />
               <div>
                 <h3 className="font-medium">Phone</h3>
-                <p className="text-muted-foreground">+1 (555) 123-4567</p>
+                <p className="text-muted-foreground">+91 6304403876</p>
               </div>
             </div>
           </div>
         </motion.div>
 
+        {/* Form */}
         <motion.div
           initial={{ opacity: 0, x: 20 }}
           animate={{ opacity: 1, x: 0 }}
@@ -114,6 +149,7 @@ export default function ContactPage() {
                 id="name"
                 name="name"
                 placeholder="Your name"
+                autoComplete="name"
                 value={formData.name}
                 onChange={handleChange}
                 required
@@ -127,6 +163,7 @@ export default function ContactPage() {
                 name="email"
                 type="email"
                 placeholder="Your email"
+                autoComplete="email"
                 value={formData.email}
                 onChange={handleChange}
                 required
@@ -158,13 +195,20 @@ export default function ContactPage() {
               />
             </div>
 
-            <Button type="submit" className="w-full" disabled={isSubmitting}>
+            <Button
+              type="submit"
+              className="w-full group"
+              disabled={isSubmitting}
+            >
               {isSubmitting ? (
                 <span className="flex items-center">Sending...</span>
               ) : (
-                <span className="flex items-center">
+                <span className="flex items-center transition-all">
                   Send Message
-                  <Send className="ml-2 h-4 w-4" />
+                  <Send
+                    className="ml-2 h-4 w-4 transform transition-transform duration-300 group-hover:translate-x-1 group-hover:-translate-y-1"
+                    aria-hidden
+                  />
                 </span>
               )}
             </Button>
