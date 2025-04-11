@@ -26,10 +26,14 @@ export default function Navbar() {
     const handleScroll = () => {
       setScrolled(window.scrollY > 20);
     };
-
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
+
+  // Close mobile menu when route changes
+  useEffect(() => {
+    setMobileMenuOpen(false);
+  }, [pathname]);
 
   return (
     <header
@@ -53,13 +57,13 @@ export default function Navbar() {
         </Link>
 
         {/* Desktop Navigation */}
-        <nav className="hidden md:flex items-center space-x-6">
+        <nav className="hidden md:flex items-center space-x-6 relative">
           {navItems.map((item) => (
             <Link
               key={item.path}
               href={item.path}
               className={cn(
-                "text-sm font-medium transition-colors hover:text-primary relative py-2",
+                "relative text-sm font-medium py-2 transition-colors hover:text-primary",
                 pathname === item.path
                   ? "text-primary"
                   : "text-muted-foreground"
@@ -69,8 +73,8 @@ export default function Navbar() {
               {pathname === item.path && (
                 <motion.div
                   layoutId="navbar-indicator"
-                  className="absolute bottom-0 left-0 right-0 h-0.5 bg-primary"
-                  transition={{ type: "spring", duration: 0.5 }}
+                  className="absolute bottom-0 left-0 right-0 h-[2px] bg-primary rounded-full"
+                  transition={{ type: "spring", stiffness: 300, damping: 20 }}
                 />
               )}
             </Link>
@@ -81,7 +85,7 @@ export default function Navbar() {
           <ModeToggle />
         </nav>
 
-        {/* Mobile Navigation Toggle */}
+        {/* Mobile Toggle */}
         <div className="flex items-center space-x-4 md:hidden">
           <ModeToggle />
           <Button
@@ -99,29 +103,35 @@ export default function Navbar() {
         </div>
       </div>
 
-      {/* Mobile Navigation Menu */}
+      {/* Mobile Menu */}
       {mobileMenuOpen && (
         <motion.div
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: -20 }}
           transition={{ duration: 0.2 }}
-          className="md:hidden border-t"
+          className="md:hidden border-t w-full"
         >
-          <div className="container py-4 space-y-3">
+          <div className="container py-6 space-y-4">
             {navItems.map((item) => (
               <Link
                 key={item.path}
                 href={item.path}
                 className={cn(
-                  "block py-2 text-sm font-medium transition-colors hover:text-primary",
+                  "relative flex items-center text-base font-medium px-4 py-2 rounded-md transition-all",
                   pathname === item.path
-                    ? "text-primary"
-                    : "text-muted-foreground"
+                    ? "text-primary font-semibold"
+                    : "text-muted-foreground hover:text-primary"
                 )}
-                onClick={() => setMobileMenuOpen(false)}
               >
                 {item.name}
+                {pathname === item.path && (
+                  <motion.div
+                    layoutId="mobile-navbar-indicator"
+                    className="absolute left-0 top-0 h-full w-1 bg-primary rounded-r-sm"
+                    transition={{ type: "spring", stiffness: 300, damping: 20 }}
+                  />
+                )}
               </Link>
             ))}
             <Button variant="outline" size="sm" className="w-full" asChild>
