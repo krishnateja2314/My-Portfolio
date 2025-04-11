@@ -3,10 +3,11 @@ title: "TypeScript’s Compiler is Being Rewritten in Go – Here’s Why That�
 slug: "typescript-compiler-in-go"
 date: "2025-04-07"
 tags: ["TypeScript", "Go", "compilers", "JavaScript", "dev news"]
+readingTime: "7 min"
 images:
-  - "/images/blog/typescript/1.png"
-  - "/images/blog/typescript/2.png"
-  - "/images/blog/typescript/3.png"
+  - "/blog/typescript-compiler-in-go/1.png"
+  - "/blog/typescript-compiler-in-go/2.png"
+  - "/blog/typescript-compiler-in-go/3.png"
 ---
 
 # TypeScript’s Compiler is Being Rewritten in Go – Here’s Why That’s Huge
@@ -48,12 +49,16 @@ And right now, that tool is **Go**.
 
 Microsoft claims the new Go-based compiler will be **10× faster** across many platforms.
 
+![Expected Speedup from Go Compiler](/blog/typescript-compiler-in-go/compiler_speed_comparison.png)
+
 That means:
 
 - Errors will show up faster
 - Type-checking will be snappier
 - CI/CD pipelines could run smoother
 - And you? You’ll become a 10× developer (at least spiritually 😅)
+
+---
 
 ### ⚙️ Low-Level Power
 
@@ -63,6 +68,8 @@ With Go, TypeScript’s internals gain access to:
 - **Concurrent processing**
 - **Better memory handling**
 - **Low-level optimizations**
+
+![Feature Comparison: TypeScript vs Go](/blog/typescript-compiler-in-go/typescript_vs_go_features.png)
 
 Something that TypeScript (the language) simply wasn’t built for.
 
@@ -82,6 +89,8 @@ You write `.ts` like you always have. The compiler just runs a whole lot faster.
 ## The Only Catch...
 
 This shift won’t go live until **TypeScript 7.0** — we’re currently on version **5.8**, and Microsoft says nothing will change until then.
+
+![Version Timeline to TS 7.0](/blog/typescript-compiler-in-go/ts_version_timeline.png)
 
 So you’ll need to wait another **10–12 months** before becoming a Go-powered TS warrior.
 

@@ -4,24 +4,34 @@ import { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { motion } from "framer-motion";
+import { Calendar, Clock } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { ProjectMeta } from "@/lib/projects";
+import { Button } from "@/components/ui/button";
 
-export default function ProjectList({ projects }: { projects: ProjectMeta[] }) {
+interface BlogMeta {
+  slug: string;
+  title: string;
+  date: string;
+  tags: string[];
+  images: string[];
+  excerpt: string;
+  readingTime: string;
+}
+
+export default function BlogList({ posts }: { posts: BlogMeta[] }) {
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedTag, setSelectedTag] = useState<string | null>(null);
 
   const allTags = Array.from(
-    new Set(projects.flatMap((project) => project.tech))
+    new Set(posts.flatMap((post) => post.tags))
   ).sort();
 
-  const filteredProjects = projects.filter((project) => {
+  const filteredPosts = posts.filter((post) => {
     const matchesSearch =
-      project.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      project.description.toLowerCase().includes(searchQuery.toLowerCase());
-    const matchesTag = selectedTag ? project.tech.includes(selectedTag) : true;
+      post.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      post.excerpt.toLowerCase().includes(searchQuery.toLowerCase());
+    const matchesTag = selectedTag ? post.tags.includes(selectedTag) : true;
     return matchesSearch && matchesTag;
   });
 
@@ -44,25 +54,27 @@ export default function ProjectList({ projects }: { projects: ProjectMeta[] }) {
     <div className="container py-12 px-4 md:px-6 md:py-16">
       <div className="space-y-2 text-center">
         <h1 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl">
-          My Projects
+          Blog
         </h1>
         <p className="mx-auto max-w-[700px] text-muted-foreground md:text-lg">
-          Explore my latest work and personal projects
+          Thoughts, tutorials, and insights on web development and design
         </p>
       </div>
 
       <div className="mt-8 space-y-6">
         <div className="flex flex-col gap-4 sm:flex-row">
           <Input
-            placeholder="Search projects by name or description..."
+            placeholder="Search posts..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
+            className="w-full"
           />
           {selectedTag && (
             <Button
               variant="outline"
               size="sm"
               onClick={() => setSelectedTag(null)}
+              className="h-9"
             >
               Clear filter
             </Button>
@@ -86,37 +98,44 @@ export default function ProjectList({ projects }: { projects: ProjectMeta[] }) {
           variants={container}
           initial="hidden"
           animate="show"
-          className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3"
+          className="grid gap-8"
         >
-          {filteredProjects.map((project) => (
-            <motion.div key={project.slug} variants={item} className="relative">
-              <Link href={`/projects/${project.slug}`} className="group block">
-                <div className="overflow-hidden rounded-lg border transition-colors hover:border-primary/50">
-                  {/* 🏷 Featured Badge */}
-                  {project.featured && (
-                    <span className="absolute top-2 left-2 z-10 bg-yellow-500 text-white text-xs font-semibold px-2 py-1 rounded">
-                      Featured
-                    </span>
-                  )}
-
-                  <div className="aspect-video overflow-hidden">
+          {filteredPosts.map((post) => (
+            <motion.div key={post.slug} variants={item}>
+              <Link href={`/blog/${post.slug}`} className="group block">
+                <div className="grid gap-6 md:grid-cols-[2fr_3fr] items-start rounded-lg border p-4 transition-colors hover:border-primary/50">
+                  <div className="overflow-hidden rounded-md">
                     <Image
-                      src={project.images[0] || "/placeholder.svg"}
-                      alt={project.title}
-                      width={600}
+                      src={post.images[0] || "/placeholder.svg"}
+                      alt={post.title}
+                      width={800}
                       height={400}
-                      className="object-cover transition-transform duration-300 group-hover:scale-105"
+                      className="aspect-[2/1] object-cover transition-transform duration-300 group-hover:scale-105"
                     />
                   </div>
-                  <div className="p-4">
-                    <div className="flex items-center justify-between">
-                      <h2 className="font-semibold">{project.title}</h2>
+                  <div className="flex flex-col gap-2">
+                    <h2 className="text-xl font-semibold group-hover:text-primary transition-colors">
+                      {post.title}
+                    </h2>
+                    <p className="text-muted-foreground">{post.excerpt}</p>
+                    <div className="mt-2 flex flex-wrap items-center gap-4">
+                      <div className="flex items-center text-sm text-muted-foreground">
+                        <Calendar className="mr-1 h-4 w-4" />
+                        <time dateTime={post.date}>
+                          {new Date(post.date).toLocaleDateString("en-US", {
+                            year: "numeric",
+                            month: "short",
+                            day: "numeric",
+                          })}
+                        </time>
+                      </div>
+                      <div className="flex items-center text-sm text-muted-foreground">
+                        <Clock className="mr-1 h-4 w-4" />
+                        {post.readingTime}
+                      </div>
                     </div>
-                    <p className="mt-2 text-sm text-muted-foreground line-clamp-2">
-                      {project.description}
-                    </p>
-                    <div className="mt-3 flex flex-wrap gap-1">
-                      {project.tech.map((tag) => (
+                    <div className="mt-2 flex flex-wrap gap-2">
+                      {post.tags.map((tag) => (
                         <Badge
                           key={tag}
                           variant="secondary"
@@ -133,9 +152,11 @@ export default function ProjectList({ projects }: { projects: ProjectMeta[] }) {
           ))}
         </motion.div>
 
-        {filteredProjects.length === 0 && (
+        {filteredPosts.length === 0 && (
           <div className="text-center py-12">
-            <p className="text-muted-foreground">No projects found.</p>
+            <p className="text-muted-foreground">
+              No posts found matching your criteria.
+            </p>
             <Button
               variant="outline"
               className="mt-4"

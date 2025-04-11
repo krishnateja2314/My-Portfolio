@@ -39,9 +39,9 @@ export default function ProjectView({
       <div className="mb-8">
         <Link
           href="/projects"
-          className="inline-flex items-center text-sm font-medium text-muted-foreground hover:text-foreground"
+          className="group inline-flex items-center text-sm font-medium text-muted-foreground hover:text-foreground transition-all"
         >
-          <ArrowLeft className="mr-1 h-4 w-4" />
+          <ArrowLeft className="mr-1 h-4 w-4 transform transition-transform duration-300 group-hover:-translate-x-1" />
           Back to Projects
         </Link>
       </div>

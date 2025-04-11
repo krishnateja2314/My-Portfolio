@@ -3,7 +3,6 @@ import { notFound } from "next/navigation";
 import { getAllProjects } from "@/lib/projects";
 import ProjectView from "@/components/projects/ProjectView";
 import { compileMDX } from "next-mdx-remote/rsc";
-import { MDXRemote } from "next-mdx-remote/rsc";
 
 type Props = {
   params: { slug: string };
