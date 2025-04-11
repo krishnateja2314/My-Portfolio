@@ -12,9 +12,7 @@ export default function ResumePage() {
     hidden: { opacity: 0 },
     show: {
       opacity: 1,
-      transition: {
-        staggerChildren: 0.1,
-      },
+      transition: { staggerChildren: 0.1 },
     },
   };
 
@@ -34,13 +32,16 @@ export default function ResumePage() {
             My professional experience and skills
           </p>
         </div>
-        <Button className="w-full sm:w-auto">
-          <Download className="mr-2 h-4 w-4" />
-          Download PDF
+        <Button asChild className="w-full sm:w-auto">
+          <a href="/resume/Krishna_Resume.pdf" download>
+            <Download className="mr-2 h-4 w-4" />
+            Download PDF
+          </a>
         </Button>
       </div>
 
       <div className="mt-12 grid gap-8 lg:grid-cols-[1fr_2fr]">
+        {/* LEFT SECTION */}
         <motion.div
           variants={container}
           initial="hidden"
@@ -49,196 +50,223 @@ export default function ResumePage() {
         >
           <motion.div variants={item} className="space-y-4">
             <h2 className="text-xl font-semibold">Contact</h2>
-            <div className="space-y-2">
-              <p className="text-sm">San Francisco, CA</p>
-              <p className="text-sm">hello@example.com</p>
-              <p className="text-sm">+1 (555) 123-4567</p>
+            <div className="space-y-2 text-sm text-muted-foreground">
+              <p>📍 Hyderabad, India</p>
+              <p>
+                📧{" "}
+                <a
+                  href="mailto:cs23btech11028@iith.ac.in"
+                  className="text-foreground hover:underline"
+                >
+                  cs23btech11028@iith.ac.in
+                </a>
+              </p>
+              <p>
+                📞{" "}
+                <a
+                  href="tel:+916304403876"
+                  className="text-foreground hover:underline"
+                >
+                  +91 63044 03876
+                </a>
+              </p>
+              <p>
+                💻{" "}
+                <a
+                  href="https://github.com/krishnateja2314"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-foreground hover:underline"
+                >
+                  github.com/krishnateja2314
+                </a>
+              </p>
+              <p>
+                🔗{" "}
+                <a
+                  href="https://www.linkedin.com/in/krishna-teja-pulipati-1b9574323"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-foreground hover:underline"
+                >
+                  linkedin.com/in/krishna-teja-pulipati
+                </a>
+              </p>
             </div>
           </motion.div>
 
           <motion.div variants={item} className="space-y-4">
             <h2 className="text-xl font-semibold">Skills</h2>
             <div className="flex flex-wrap gap-2">
-              <Badge variant="outline">React</Badge>
-              <Badge variant="outline">Next.js</Badge>
-              <Badge variant="outline">TypeScript</Badge>
-              <Badge variant="outline">JavaScript</Badge>
-              <Badge variant="outline">HTML</Badge>
-              <Badge variant="outline">CSS</Badge>
-              <Badge variant="outline">Tailwind CSS</Badge>
-              <Badge variant="outline">Node.js</Badge>
-              <Badge variant="outline">Git</Badge>
-              <Badge variant="outline">Figma</Badge>
-              <Badge variant="outline">UI/UX Design</Badge>
-              <Badge variant="outline">Responsive Design</Badge>
+              {[
+                "Java",
+                "Python",
+                "C/C++",
+                "JavaScript",
+                "Go",
+                "HTML/CSS",
+                "SQL",
+                "React",
+                "Node.js",
+                "Express.js",
+                "FastAPI",
+                "Hugo",
+                "Git",
+                "VS Code",
+                "PyCharm",
+              ].map((skill) => (
+                <Badge key={skill} variant="outline">
+                  {skill}
+                </Badge>
+              ))}
             </div>
           </motion.div>
 
           <motion.div variants={item} className="space-y-4">
             <h2 className="text-xl font-semibold">Education</h2>
-            <div className="space-y-4">
+            <div className="space-y-4 text-sm text-muted-foreground">
               <div>
-                <h3 className="font-medium">
-                  Bachelor of Science in Computer Science
-                </h3>
-                <p className="text-sm text-muted-foreground">
-                  University Name, 2018-2022
-                </p>
+                <h3 className="font-medium">IIT Hyderabad</h3>
+                <p>BTech in Computer Science (2023 – 2027)</p>
               </div>
-            </div>
-          </motion.div>
-
-          <motion.div variants={item} className="space-y-4">
-            <h2 className="text-xl font-semibold">Languages</h2>
-            <div className="space-y-2">
-              <p className="text-sm">English (Native)</p>
-              <p className="text-sm">Spanish (Intermediate)</p>
+              <div>
+                <h3 className="font-medium">Sri Chaitanya Jr College</h3>
+                <p>MPC (2021 – 2023)</p>
+              </div>
             </div>
           </motion.div>
         </motion.div>
 
+        {/* RIGHT SECTION */}
         <motion.div
           variants={container}
           initial="hidden"
           animate="show"
-          className="space-y-8"
+          className="space-y-10"
         >
           <motion.div variants={item} className="space-y-4">
             <h2 className="text-xl font-semibold">Experience</h2>
-            <div className="space-y-6">
-              <Card>
-                <CardHeader className="pb-2">
-                  <div className="flex flex-col justify-between gap-1 sm:flex-row sm:items-center">
-                    <CardTitle className="text-base">
-                      Frontend Developer
-                    </CardTitle>
-                    <div className="flex items-center">
-                      <Badge variant="outline">2022 - Present</Badge>
-                    </div>
-                  </div>
-                  <p className="text-sm font-medium">
-                    Company Name, San Francisco, CA
-                  </p>
-                </CardHeader>
-                <CardContent className="text-sm">
-                  <ul className="list-disc pl-4 space-y-2">
-                    <li>
-                      Developed and maintained responsive web applications using
-                      React and Next.js
-                    </li>
-                    <li>
-                      Collaborated with designers to implement UI/UX designs
-                      with Tailwind CSS
-                    </li>
-                    <li>
-                      Improved application performance by optimizing code and
-                      assets
-                    </li>
-                    <li>
-                      Worked with cross-functional teams to deliver features on
-                      time
-                    </li>
-                  </ul>
-                </CardContent>
-              </Card>
 
-              <Card>
-                <CardHeader className="pb-2">
-                  <div className="flex flex-col justify-between gap-1 sm:flex-row sm:items-center">
-                    <CardTitle className="text-base">
-                      Web Developer Intern
-                    </CardTitle>
-                    <div className="flex items-center">
-                      <Badge variant="outline">Summer 2021</Badge>
-                    </div>
-                  </div>
-                  <p className="text-sm font-medium">
-                    Internship Company, San Francisco, CA
-                  </p>
-                </CardHeader>
-                <CardContent className="text-sm">
-                  <ul className="list-disc pl-4 space-y-2">
-                    <li>
-                      Assisted in developing web applications using React and
-                      JavaScript
-                    </li>
-                    <li>
-                      Implemented responsive designs using CSS and Bootstrap
-                    </li>
-                    <li>Participated in code reviews and team meetings</li>
-                    <li>Gained experience with version control using Git</li>
-                  </ul>
-                </CardContent>
-              </Card>
-            </div>
+            {/* Noted */}
+            <Card>
+              <CardHeader className="pb-2">
+                <CardTitle className="text-base">Web Intern</CardTitle>
+                <p className="text-sm text-muted-foreground">
+                  Noted · Feb 2025 – Present
+                </p>
+              </CardHeader>
+              <CardContent className="text-sm">
+                <ul className="list-disc pl-4 space-y-2">
+                  <li>Working on full-stack features for a startup product.</li>
+                </ul>
+              </CardContent>
+            </Card>
+
+            {/* Diesta */}
+            <Card>
+              <CardHeader className="pb-2">
+                <CardTitle className="text-base">
+                  Web Dev Head · Diesta
+                </CardTitle>
+                <p className="text-sm text-muted-foreground">
+                  IIT Hyderabad · Sep 2024 – Feb 2024
+                </p>
+              </CardHeader>
+              <CardContent className="text-sm">
+                <ul className="list-disc pl-4 space-y-2">
+                  <li>
+                    Built a live event-tracking portal for campus competitions.
+                  </li>
+                  <li>
+                    Used Next.js and Google APIs. Hosted and maintained with
+                    custom domain.
+                  </li>
+                </ul>
+              </CardContent>
+            </Card>
+
+            {/* Lambda */}
+            <Card>
+              <CardHeader className="pb-2">
+                <CardTitle className="text-base">
+                  Core Developer · Lambda Club
+                </CardTitle>
+                <p className="text-sm text-muted-foreground">
+                  IIT Hyderabad · Aug 2024 – Apr 2024
+                </p>
+              </CardHeader>
+              <CardContent className="text-sm">
+                <ul className="list-disc pl-4 space-y-2">
+                  <li>Built a static website with Hugo and Go.</li>
+                  <li>Developed a full-stack web app using MERN stack.</li>
+                  <li>Automated emails using Google Apps Script.</li>
+                </ul>
+              </CardContent>
+            </Card>
           </motion.div>
 
           <Separator />
 
+          {/* Projects */}
           <motion.div variants={item} className="space-y-4">
             <h2 className="text-xl font-semibold">Projects</h2>
-            <div className="space-y-6">
-              <Card>
-                <CardHeader className="pb-2">
-                  <div className="flex flex-col justify-between gap-1 sm:flex-row sm:items-center">
-                    <CardTitle className="text-base">
-                      E-commerce Platform
-                    </CardTitle>
-                  </div>
-                </CardHeader>
-                <CardContent className="text-sm">
-                  <p className="mb-2">
-                    A modern e-commerce platform with product listings, cart
-                    functionality, and secure checkout.
-                  </p>
-                  <div className="flex flex-wrap gap-2 mt-2">
-                    <Badge variant="secondary">Next.js</Badge>
-                    <Badge variant="secondary">React</Badge>
-                    <Badge variant="secondary">Tailwind CSS</Badge>
-                    <Badge variant="secondary">Stripe</Badge>
-                  </div>
-                </CardContent>
-              </Card>
-
-              <Card>
-                <CardHeader className="pb-2">
-                  <div className="flex flex-col justify-between gap-1 sm:flex-row sm:items-center">
-                    <CardTitle className="text-base">
-                      Task Management App
-                    </CardTitle>
-                  </div>
-                </CardHeader>
-                <CardContent className="text-sm">
-                  <p className="mb-2">
-                    A productivity app for managing tasks, projects, and
-                    deadlines with real-time updates.
-                  </p>
-                  <div className="flex flex-wrap gap-2 mt-2">
-                    <Badge variant="secondary">Next.js</Badge>
-                    <Badge variant="secondary">TypeScript</Badge>
-                    <Badge variant="secondary">Supabase</Badge>
-                  </div>
-                </CardContent>
-              </Card>
+            <div className="space-y-6 text-sm">
+              {[
+                {
+                  title: "Event Management Web App",
+                  desc: "Full-stack app using React, MongoDB, Express.js. Auth and REST API implemented.",
+                  stack: ["React", "Express.js", "MongoDB", "Git"],
+                },
+                {
+                  title: "Cricket Tournament Management App",
+                  desc: "Role-based score manager and viewer portal using FastAPI and React.",
+                  stack: ["FastAPI", "React", "MySQL"],
+                },
+                {
+                  title: "Cepheid Club Website",
+                  desc: "Static site using Hugo. Designed for non-devs to update via Markdown.",
+                  stack: ["Hugo", "Go", "Git"],
+                },
+                {
+                  title: "Assembly Code Simulator",
+                  desc: "Built RISC-V architecture simulator with cache/memory simulation in C++.",
+                  stack: ["C++"],
+                },
+              ].map((proj) => (
+                <Card key={proj.title}>
+                  <CardHeader className="pb-2">
+                    <CardTitle className="text-base">{proj.title}</CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <p className="mb-2">{proj.desc}</p>
+                    <div className="flex flex-wrap gap-2 mt-2">
+                      {proj.stack.map((tech) => (
+                        <Badge key={tech} variant="secondary">
+                          {tech}
+                        </Badge>
+                      ))}
+                    </div>
+                  </CardContent>
+                </Card>
+              ))}
             </div>
           </motion.div>
 
           <Separator />
 
+          {/* Extracurriculars */}
           <motion.div variants={item} className="space-y-4">
-            <h2 className="text-xl font-semibold">Certifications</h2>
-            <div className="space-y-4">
+            <h2 className="text-xl font-semibold">Extracurriculars</h2>
+            <div className="space-y-4 text-sm text-muted-foreground">
               <div>
-                <h3 className="font-medium">Web Development Certification</h3>
-                <p className="text-sm text-muted-foreground">
-                  Certification Provider, 2022
-                </p>
+                <h3 className="font-medium">Annual Fest Coordinator</h3>
+                <p>IIT Hyderabad · Aug 2024 – Mar 2025</p>
               </div>
               <div>
-                <h3 className="font-medium">UI/UX Design Fundamentals</h3>
-                <p className="text-sm text-muted-foreground">
-                  Design Academy, 2023
-                </p>
+                <h3 className="font-medium">
+                  Core Member · Glitch Club (Gaming)
+                </h3>
+                <p>IIT Hyderabad · Aug 2024 – Mar 2025</p>
               </div>
             </div>
           </motion.div>
