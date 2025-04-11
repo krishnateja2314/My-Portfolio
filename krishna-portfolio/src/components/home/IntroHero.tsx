@@ -47,9 +47,11 @@ export default function IntroHero() {
                   <span className="text-primary">Krishna Teja</span>
                 </h1>
                 <p className="max-w-[600px] text-muted-foreground md:text-xl">
-                  I’m a CS undergrad at IIT Hyderabad, self-taught via YouTube,
-                  and currently building fullstack web apps with chill vibes and
-                  clean code.
+                  I’m a CS undergrad at IIT Hyderabad, passionate about building
+                  great websites. I love to create things that live on the
+                  internet, whether it’s a website, a web app, or a blog. I’m
+                  always looking for new challenges and opportunities to learn
+                  and grow as a developer.
                 </p>
               </div>
               <div className="flex flex-col gap-2 min-[400px]:flex-row">

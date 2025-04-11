@@ -4,9 +4,9 @@ import IntroHero from "@/components/home/IntroHero";
 import HomeClient from "@/components/home/homeBlogs";
 import FeaturedProjects from "@/components/home/FeaturedProjects";
 
-export default function Home() {
+export default async function Home() {
   const blogs = getAllBlogs().slice(-2, -1);
-  const allProjects = getAllProjects();
+  const allProjects = await getAllProjects();
   const featuredProjects = allProjects.filter((p) => p.featured).slice(0, 3);
 
   return (
