@@ -1,30 +1,330 @@
 @import "tailwindcss";
 @import "tw-animate-css";
-@layer utilities {
-    .border-draw {
-      position: relative;
-      overflow: hidden;
-    }
-  
-    .border-draw::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 0%;
-      height: 100%;
-      border: 2px solid currentColor;
-      border-radius: 0.5rem; /* match your button rounding */
-      transition: width 0.3s ease;
-    }
-  
-    .border-draw:hover::before {
-      width: 100%;
-    }
-  
-    .border-draw > * {
-      position: relative;
-      z-index: 10;
-    }
+
+/* Tailwind v4 plugin registration */
+@plugin "@tailwindcss/typography";
+
+/* Enable class-based dark mode so `next-themes` (attribute="class") works */
+@custom-variant dark (&:where(.dark, .dark *));
+
+/* ---------- Design tokens (shadcn-compatible) ---------- */
+:root {
+  --background: oklch(1 0 0);
+  --foreground: oklch(0.145 0 0);
+
+  --card: oklch(1 0 0);
+  --card-foreground: oklch(0.145 0 0);
+
+  --popover: oklch(1 0 0);
+  --popover-foreground: oklch(0.145 0 0);
+
+  --primary: oklch(0.205 0 0);
+  --primary-foreground: oklch(0.985 0 0);
+
+  --secondary: oklch(0.97 0 0);
+  --secondary-foreground: oklch(0.205 0 0);
+
+  --muted: oklch(0.97 0 0);
+  --muted-foreground: oklch(0.556 0 0);
+
+  --accent: oklch(0.97 0 0);
+  --accent-foreground: oklch(0.205 0 0);
+
+  --destructive: oklch(0.577 0.245 27.325);
+  --destructive-foreground: oklch(0.985 0 0);
+
+  --border: oklch(0.922 0 0);
+  --input: oklch(0.922 0 0);
+  --ring: oklch(0.708 0 0);
+
+  --radius: 0.625rem;
+}
+
+.dark {
+  --background: oklch(0.145 0 0);
+  --foreground: oklch(0.985 0 0);
+
+  --card: oklch(0.205 0 0);
+  --card-foreground: oklch(0.985 0 0);
+
+  --popover: oklch(0.205 0 0);
+  --popover-foreground: oklch(0.985 0 0);
+
+  --primary: oklch(0.922 0 0);
+  --primary-foreground: oklch(0.205 0 0);
+
+  --secondary: oklch(0.269 0 0);
+  --secondary-foreground: oklch(0.985 0 0);
+
+  --muted: oklch(0.269 0 0);
+  --muted-foreground: oklch(0.708 0 0);
+
+  --accent: oklch(0.269 0 0);
+  --accent-foreground: oklch(0.985 0 0);
+
+  --destructive: oklch(0.704 0.191 22.216);
+  --destructive-foreground: oklch(0.985 0 0);
+
+  --border: oklch(1 0 0 / 12%);
+  --input: oklch(1 0 0 / 15%);
+  --ring: oklch(0.556 0 0);
+}
+
+/* Expose the tokens as Tailwind utilities (bg-primary, text-muted-foreground, etc.) */
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+}
+
+/* ---------- Base ---------- */
+@layer base {
+  * {
+    border-color: var(--border);
   }
-  
+  body {
+    background-color: var(--background);
+    color: var(--foreground);
+  }
+
+  html {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+  }
+
+  /* Tailwind v4: the `container` class no longer auto-centers.
+     Force every `.container` to be centered so page content isn't
+     pinned to the left with a large right gutter on wide screens. */
+  .container {
+    margin-left: auto;
+    margin-right: auto;
+    width: 100%;
+  }
+}
+
+/* ---------- Long-form article typography ---------- */
+/* Applied via `.article` on the MDX container so writeups read like
+   a well-typeset blog post instead of dumped HTML. */
+@layer components {
+  .article {
+    color: var(--foreground);
+    font-size: 1.0625rem; /* ~17px */
+    line-height: 1.75;
+    max-width: 68ch;
+  }
+
+  .article > * + * {
+    margin-top: 1.1em;
+  }
+
+  .article p {
+    margin: 0;
+    text-wrap: pretty;
+  }
+
+  .article h2 {
+    font-size: 1.5rem;
+    line-height: 1.3;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+    margin-top: 2.25em;
+    margin-bottom: 0.6em;
+    scroll-margin-top: 5rem;
+    text-wrap: balance;
+    color: var(--foreground);
+  }
+
+  .article h2:first-child {
+    margin-top: 0;
+  }
+
+  .article h3 {
+    font-size: 1.2rem;
+    line-height: 1.35;
+    font-weight: 600;
+    margin-top: 1.75em;
+    margin-bottom: 0.4em;
+    scroll-margin-top: 5rem;
+    text-wrap: balance;
+    color: var(--foreground);
+  }
+
+  .article h4 {
+    font-size: 1.05rem;
+    font-weight: 600;
+    margin-top: 1.5em;
+    margin-bottom: 0.3em;
+    color: var(--foreground);
+  }
+
+  .article ul,
+  .article ol {
+    margin: 0;
+    padding-left: 1.4em;
+  }
+  .article ul { list-style: disc; }
+  .article ol { list-style: decimal; }
+
+  .article li {
+    margin-top: 0.35em;
+    margin-bottom: 0.35em;
+    padding-left: 0.25em;
+  }
+  .article li::marker {
+    color: var(--muted-foreground);
+  }
+  .article li > p { display: inline; }
+
+  .article strong {
+    font-weight: 600;
+    color: var(--foreground);
+  }
+
+  .article a {
+    color: var(--primary);
+    text-decoration: underline;
+    text-decoration-color: color-mix(in oklab, var(--primary) 45%, transparent);
+    text-underline-offset: 3px;
+    text-decoration-thickness: 1px;
+    transition: text-decoration-color 0.15s ease;
+  }
+  .article a:hover {
+    text-decoration-color: var(--primary);
+  }
+
+  .article code {
+    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
+      "Liberation Mono", "Courier New", monospace;
+    font-size: 0.9em;
+    padding: 0.15em 0.4em;
+    border-radius: 0.3rem;
+    background: var(--muted);
+    border: 1px solid var(--border);
+    white-space: nowrap;
+  }
+
+  .article pre {
+    margin: 1.5em 0;
+    padding: 1rem 1.15rem;
+    border-radius: 0.65rem;
+    background: var(--muted);
+    border: 1px solid var(--border);
+    overflow-x: auto;
+    font-size: 0.9rem;
+    line-height: 1.6;
+    color: var(--foreground);
+  }
+  .article pre code {
+    background: transparent;
+    border: 0;
+    padding: 0;
+    font-size: inherit;
+    white-space: pre;
+  }
+
+  .article blockquote {
+    margin: 1.5em 0;
+    padding: 0.25em 1em;
+    border-left: 3px solid var(--border);
+    color: var(--muted-foreground);
+    font-style: italic;
+  }
+
+  .article hr {
+    margin: 2.5em 0;
+    border: 0;
+    border-top: 1px solid var(--border);
+  }
+
+  .article img {
+    margin: 1.5em auto;
+    border-radius: 0.65rem;
+    border: 1px solid var(--border);
+  }
+
+  .article table {
+    width: 100%;
+    margin: 1.5em 0;
+    border-collapse: collapse;
+    font-size: 0.95em;
+  }
+  .article th,
+  .article td {
+    padding: 0.55em 0.85em;
+    border-bottom: 1px solid var(--border);
+    text-align: left;
+    vertical-align: top;
+  }
+  .article th {
+    font-weight: 600;
+    background: var(--muted);
+  }
+
+  .article kbd {
+    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
+      "Liberation Mono", "Courier New", monospace;
+    font-size: 0.8em;
+    padding: 0.1em 0.4em;
+    border-radius: 0.3rem;
+    background: var(--muted);
+    border: 1px solid var(--border);
+  }
+}
+
+@layer utilities {
+  .border-draw {
+    position: relative;
+    overflow: hidden;
+  }
+
+  .border-draw::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 0%;
+    height: 100%;
+    border: 2px solid currentColor;
+    border-radius: 0.5rem;
+    transition: width 0.3s ease;
+  }
+
+  .border-draw:hover::before {
+    width: 100%;
+  }
+
+  .border-draw > * {
+    position: relative;
+    z-index: 10;
+  }
+}

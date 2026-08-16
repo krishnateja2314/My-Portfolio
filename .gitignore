@@ -1,0 +1,24 @@
+# OS junk
+.DS_Store
+Thumbs.db
+
+# Editor / IDE
+.vscode/
+.idea/
+
+# Loose media dumped into the repo root (project images should live in
+# krishna-portfolio/public/**, not here)
+/*.png
+/*.jpg
+/*.jpeg
+/*.gif
+/*.webp
+/*.pdf
+
+# Loose scratch notes
+/*.md
+
+# Loose lockfiles at repo root (the app has its own inside krishna-portfolio/)
+/package-lock.json
+/yarn.lock
+/pnpm-lock.yaml

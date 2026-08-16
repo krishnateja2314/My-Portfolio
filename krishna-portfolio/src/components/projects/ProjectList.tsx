@@ -89,34 +89,46 @@ export default function ProjectList({ projects }: { projects: ProjectMeta[] }) {
           className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3"
         >
           {filteredProjects.map((project) => (
-            <motion.div key={project.slug} variants={item} className="relative">
-              <Link href={`/projects/${project.slug}`} className="group block">
-                <div className="overflow-hidden rounded-lg border transition-colors hover:border-primary/50">
-                  {/* 🏷 Featured Badge */}
+            <motion.div
+              key={project.slug}
+              variants={item}
+              className="relative h-full"
+            >
+              <Link
+                href={`/projects/${project.slug}`}
+                className="group block h-full"
+              >
+                <div className="flex h-full flex-col overflow-hidden rounded-lg border bg-card transition-colors hover:border-primary/50">
                   {project.featured && (
-                    <span className="absolute top-2 left-2 z-10 bg-yellow-500 text-white text-xs font-semibold px-2 py-1 rounded">
+                    <span className="absolute top-2 left-2 z-10 rounded bg-primary px-2 py-0.5 text-xs font-semibold text-primary-foreground shadow">
                       Featured
                     </span>
                   )}
 
-                  <div className="aspect-video overflow-hidden">
-                    <Image
-                      src={project.images[0] || "/placeholder.svg"}
-                      alt={project.title}
-                      width={600}
-                      height={400}
-                      className="object-cover transition-transform duration-300 group-hover:scale-105"
-                    />
+                  <div className="relative aspect-video overflow-hidden bg-muted">
+                    {project.images[0] ? (
+                      <Image
+                        src={project.images[0]}
+                        alt={project.title}
+                        fill
+                        sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                        className="object-cover transition-transform duration-300 group-hover:scale-105"
+                      />
+                    ) : (
+                      <div className="flex h-full w-full items-center justify-center text-xs text-muted-foreground">
+                        No preview
+                      </div>
+                    )}
                   </div>
-                  <div className="p-4">
-                    <div className="flex items-center justify-between">
-                      <h2 className="font-semibold">{project.title}</h2>
-                    </div>
-                    <p className="mt-2 text-sm text-muted-foreground line-clamp-2">
+                  <div className="flex flex-1 flex-col gap-2 p-4">
+                    <h2 className="font-semibold group-hover:text-primary transition-colors">
+                      {project.title}
+                    </h2>
+                    <p className="text-sm text-muted-foreground line-clamp-2">
                       {project.description}
                     </p>
-                    <div className="mt-3 flex flex-wrap gap-1">
-                      {project.tech.map((tag) => (
+                    <div className="mt-auto flex flex-wrap gap-1 pt-2">
+                      {project.tech.slice(0, 5).map((tag) => (
                         <Badge
                           key={tag}
                           variant="secondary"
@@ -125,6 +137,11 @@ export default function ProjectList({ projects }: { projects: ProjectMeta[] }) {
                           {tag}
                         </Badge>
                       ))}
+                      {project.tech.length > 5 && (
+                        <Badge variant="outline" className="text-xs">
+                          +{project.tech.length - 5}
+                        </Badge>
+                      )}
                     </div>
                   </div>
                 </div>

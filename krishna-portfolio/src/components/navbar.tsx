@@ -44,15 +44,15 @@ export default function Navbar() {
           : "bg-background"
       )}
     >
-      <div className="container flex h-16 items-center justify-between">
+      <div className="container mx-auto flex h-16 items-center justify-between px-4">
         <Link href="/" className="flex items-center space-x-2">
           <motion.div
             initial={{ opacity: 0, scale: 0.8 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.5 }}
-            className="font-bold text-xl"
+            className="font-bold text-xl tracking-tight"
           >
-            Portfolio
+            Krishna Teja
           </motion.div>
         </Link>
 

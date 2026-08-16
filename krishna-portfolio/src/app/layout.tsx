@@ -10,8 +10,9 @@ import Footer from "@/components/footer";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Krishna's Portfolio",
-  description: "A showcase of my work and skills",
+  title: "Krishna Teja | Full-Stack & AI Agents",
+  description:
+    "Portfolio of Krishna Teja Pulipati. CS undergrad at IIT Hyderabad, full-stack engineer, and AI agent builder.",
   icons: {
     icon: "/favicon.ico",
   },
@@ -24,9 +25,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body
-        className={`${inter.className} antialiased flex flex-col  items-center justify-center`}
-      >
+      <body className={`${inter.className} antialiased min-h-screen`}>
         <Toaster />
         <ThemeProvider
           attribute="class"
@@ -34,9 +33,9 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          <div className="flex w-full  items-center min-h-screen flex-col">
+          <div className="flex min-h-screen w-full flex-col">
             <Navbar />
-            <main className="flex-1">{children}</main>
+            <main className="flex-1 w-full">{children}</main>
             <Footer />
           </div>
         </ThemeProvider>

@@ -3,7 +3,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import { motion } from "framer-motion";
-import { ArrowRight, Code, Layers, Zap } from "lucide-react";
+import { ArrowRight, Bot, Code, Zap } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -41,17 +41,21 @@ export default function IntroHero() {
               transition={{ duration: 0.5 }}
               className="flex flex-col justify-center space-y-4"
             >
-              <div className="space-y-2">
+              <div className="space-y-3">
                 <h1 className="text-3xl font-bold tracking-tighter sm:text-5xl xl:text-6xl/none">
                   Hi, I&apos;m{" "}
                   <span className="text-primary">Krishna Teja</span>
                 </h1>
-                <p className="max-w-[600px] text-muted-foreground md:text-xl">
-                  I’m a CS undergrad at IIT Hyderabad, passionate about building
-                  great websites. I love to create things that live on the
-                  internet, whether it’s a website, a web app, or a blog. I’m
-                  always looking for new challenges and opportunities to learn
-                  and grow as a developer.
+                <p className="max-w-[620px] text-muted-foreground md:text-xl leading-relaxed">
+                  CS undergrad at IIT Hyderabad. I build full-stack products
+                  end to end, and over the last year I&apos;ve been going
+                  deep on{" "}
+                  <span className="text-foreground font-medium">
+                    AI agents
+                  </span>
+                  . LangGraph, tool-calling, and figuring out how far LLMs
+                  can actually be trusted to drive real systems. Recently
+                  on-site at Teradata as an AI Engineer intern.
                 </p>
               </div>
               <div className="flex flex-col gap-2 min-[400px]:flex-row">
@@ -75,12 +79,12 @@ export default function IntroHero() {
               transition={{ duration: 0.5, delay: 0.2 }}
               className="flex items-center justify-center"
             >
-              <div className="relative aspect-square overflow-hidden rounded-full border-4 border-primary/20">
+              <div className="relative aspect-square w-full max-w-[320px] md:max-w-[420px] overflow-hidden rounded-full border-4 border-primary/20 shadow-lg">
                 <Image
-                  src="/profile.jpg"
+                  src="/goa.jpeg"
                   alt="Krishna Teja"
-                  width={600}
-                  height={600}
+                  fill
+                  sizes="(max-width: 768px) 320px, 420px"
                   className="object-cover"
                   priority
                 />
@@ -101,26 +105,26 @@ export default function IntroHero() {
         >
           {[
             {
-              icon: <Code className="h-5 w-5 text-primary" />,
-              title: "Fullstack Engineering",
-              desc: "I build scalable fullstack apps with both frontend polish and backend power.",
-              tech: "Next.js, React, FastAPI, Node.js, MySQL, MongoDB, REST APIs",
+              icon: <Bot className="h-5 w-5 text-primary" />,
+              title: "AI Agents & Tooling",
+              desc: "Building tool-calling agents that actually ship. Schema-validated outputs, self-critique loops, and hard guardrails.",
+              tech: "LangGraph, LangChain, Ollama, LLM tool synthesis, RAG",
             },
             {
-              icon: <Layers className="h-5 w-5 text-primary" />,
-              title: "CMS + Static Site Dev",
-              desc: "From event portals to club sites — I've built fast static sites with real-world content teams.",
-              tech: "Hugo, Markdown, Netlify, Excel-as-DB, Git-based CMS",
+              icon: <Code className="h-5 w-5 text-primary" />,
+              title: "Full-Stack Engineering",
+              desc: "End-to-end product work, from data models to the last pixel, with a bias for shipping.",
+              tech: "Next.js, React, TypeScript, FastAPI, Node.js, MongoDB, PostgreSQL",
             },
             {
               icon: <Zap className="h-5 w-5 text-primary" />,
-              title: "Performance & SEO",
-              desc: "I care about clean structure, fast loads, and discoverability.I do something unique in every project.",
-              tech: "structured SEO, Nginx, responsive & accessible UIs",
+              title: "Systems & Performance",
+              desc: "I care about the boring stuff. Latency, correctness, and code that doesn't fall over at 2 AM.",
+              tech: "Docker, Nginx, WebSockets, CI/CD, observability, SEO",
             },
           ].map((itemProps, idx) => (
-            <motion.div variants={item} key={idx}>
-              <Card>
+            <motion.div variants={item} key={idx} className="h-full">
+              <Card className="h-full transition-colors hover:border-primary/50">
                 <CardHeader className="space-y-1">
                   <CardTitle className="flex items-center gap-2">
                     {itemProps.icon}

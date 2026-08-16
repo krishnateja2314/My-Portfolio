@@ -1,0 +1,78 @@
+---
+title: "PEAD-X: Quantitative Trading Bot"
+slug: "pead-x"
+date: "2026-06-10"
+description: "A production quant bot that trades Post-Earnings Announcement Drift on Indian equities. AI extraction pipeline, real-time microstructure signals, strict risk controls, and the whole thing runs on my desk."
+tech: ["Node.js", "Express", "MongoDB", "LangGraph", "LangChain", "Ollama", "Qwen 2.5", "Fyers API", "WebSocket", "React", "Vite", "Tailwind CSS", "Docker", "PM2"]
+demo: ""
+repo: ""
+images:
+  - "/projects/pead-x/1.png"
+  - "/projects/pead-x/2.png"
+featured: true
+---
+
+## The idea
+
+**PEAD-X** is a quantitative trading system I designed and built end to end to trade **Post-Earnings Announcement Drift (PEAD)**. It is one of the oldest and most stubborn anomalies in equity markets: prices don't fully price in an earnings surprise on day one, so they drift toward fair value over the following weeks.
+
+The academic case is strong. Bernard & Thomas showed the spread between the top and bottom earnings-surprise deciles produces roughly a 5% risk-adjusted return over three months, which annualises to about 20%. India is a particularly good place to run this. Analyst coverage is thinner, there are fewer quants competing, institutions absorb positions more slowly, and retail participation is heavier. All of that stretches the drift window and makes the anomaly more tradeable.
+
+The system chews through roughly 1,500 earnings announcements a quarter, filters them through an AI extraction pipeline, watches real-time microstructure signals, and executes trades under strict risk limits. All of it runs locally on consumer hardware with zero cloud dependency.
+
+## What actually happens end to end
+
+1. A **fundamental screener** pulls the earnings calendar from a licensed vendor, computes the standardised earnings surprise (SUE), and applies PEG and MAGNA filters.
+2. Anything that survives goes into the **AI extraction pipeline**. The concall PDF is parsed (with Tesseract OCR fallback for scanned reports), chunked, and sent to a local **Qwen 2.5 (14B, 4-bit quantised)** model running under Ollama.
+3. The LLM output is never trusted directly. It runs through a **deterministic validation gate** that re-checks SUE, PEG, guidance revision, exceptional items, and adverse macro news via RSS. Around 60 to 70% of announcements are rejected here. That's the point.
+4. Approved names are handed to the **market microstructure monitor**, which subscribes to the ticker over the **Fyers V3 WebSocket**, aggregates 1-minute candles, and watches for EMA crosses, opening-range breakouts, and liquidity sweeps.
+5. When a valid entry setup fires, the **execution engine** sizes the position, places the order via Fyers REST, and hands it off to a **multi-tier exit manager** (VWAP swing, 20-day SMA drift, long institutional hold).
+
+## Backend engineering
+
+The backend is Node.js 20 on Express, with **MongoDB 7** as the single source of truth for catalysts, deployments, and the AI queue. Key stack decisions:
+
+- **Mongoose** for schema validation on `FundamentalCatalyst`, `ActiveDeployment`, and `AIPendingQueue` collections.
+- **Fyers V3** for market data and orders, with automated 2FA via `otplib` so daily boot doesn't need a human sitting at the machine.
+- **node-cron** for hourly polling and end-of-day jobs.
+- **Zod** for runtime schema validation on every external payload.
+- **PM2** for auto-restart with graceful shutdown. **Winston + Morgan** for structured logs.
+- A **synchronous in-memory queue** instead of Bull + Redis. Throughput is about 150 signals per quarter, so Redis would have added latency and moving parts for no real upside.
+
+## The AI / agentic pipeline
+
+The extraction pipeline is orchestrated with **LangGraph**, not because the current graph is complex (three nodes: `extract`, `validate`, `reject`) but because it needs to grow into adversarial validation, recursive refinement, and parallel tool calls without a rewrite.
+
+Two design choices that mattered:
+
+**Local LLM over cloud API.** Qwen 2.5 (4-bit) runs at 50 to 200 ms per extraction on a 16 GB GPU. The equivalent GPT-4 calls would cost ₹750 to ₹1,500 per quarter. That's cheap in absolute terms, but the cloud round-trip kills the latency budget, breaks reproducibility, and sends financial data off-box. Local wins on latency, cost over 3+ years, and compliance.
+
+**Structured booleans over confidence scores.** Earlier prompts asked the LLM for a `confidence_score: 0 to 100` and a reasoning string. That produced non-reproducible, unfalsifiable outputs. Is 78 "good enough"? What about 72? Now the LLM is forced to emit strict JSON with fields like `guidance_revised: boolean`, `exceptional_items_declared: boolean`, `capex_expansion_cr: number`, and the validation gate applies deterministic rules on top. Every decision is auditable and replayable.
+
+## Risk sizing
+
+Positions are sized using a **fractional-risk / Kelly-variant** formula:
+
+```
+Quantity = floor((Capital × Risk%) / (Entry - ATR_stop))
+```
+
+On a ₹24 L portfolio with a 1% risk budget and an ATR-based stop of ₹25 wide, entry at ₹820.50 gives 960 shares. This automatically scales positions down on volatile names and up on tighter setups, keeping the per-trade risk contribution flat across the book.
+
+Sector concentration is capped (max three positions per sector), and a **regime filter** on Nifty 50 can flip the whole system into `CAPITAL_PRESERVATION` mode.
+
+## Frontend dashboard
+
+The dashboard is **React 19 + Vite + Tailwind v4** with **Lightweight Charts** (TradingView's OSS fork). It's polled rather than push-based. Dashboard components have a small surface (fewer than 20 components), and polling keeps state management trivial and debugging obvious.
+
+- Positions and P&L: 5 s poll
+- AI queue: 10 s poll
+- Vitals and charts: 30 s poll
+
+The panels cover the overview (portfolio P&L, Sharpe, drawdown), active positions, the AI pending queue, live microstructure sniffers, system status (paper vs live, regime), and margin and capital vitals.
+
+## What I actually learned building this
+
+The strategy isn't the hard part. The plumbing is. Making sure a bad tick, a slow LLM call, a broker timeout, or a mid-day restart can't blow up the book took more design work than the alpha model itself. Every rejection is logged, every extraction is reproducible, and the whole thing can recover from a hard crash in under a second because state lives in Mongo, not in memory.
+
+This is the project that pushed me from "building features" into thinking about systems as things that have to run, unattended, on real money.

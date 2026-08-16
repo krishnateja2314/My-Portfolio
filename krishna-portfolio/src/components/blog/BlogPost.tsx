@@ -91,14 +91,7 @@ export default function BlogPost({ post, mdx }: BlogPostProps) {
         )}
 
         {/* Blog Content */}
-        <article
-          className="mt-12 prose prose-gray dark:prose-invert max-w-none
-             prose-img:rounded-xl prose-img:shadow-md prose-img:border
-             prose-img:my-8 prose-img:mx-auto prose-img:max-w-full
-             prose-h2:mt-10 prose-h2:mb-4 prose-p:leading-relaxed"
-        >
-          {mdx}
-        </article>
+        <article className="article mt-12 mx-auto">{mdx}</article>
       </motion.div>
     </div>
   );

@@ -45,21 +45,32 @@ export default function FeaturedProjects({
           className="grid gap-6 md:grid-cols-2 lg:grid-cols-3"
         >
           {projects.map((project) => (
-            <motion.div key={project.slug} variants={item}>
-              <Link href={`/projects/${project.slug}`} className="group block">
-                <div className="overflow-hidden rounded-lg border">
-                  <div className="aspect-video overflow-hidden">
-                    <Image
-                      src={project.images[0]}
-                      alt={project.title}
-                      width={600}
-                      height={400}
-                      className="object-cover transition-transform duration-300 group-hover:scale-105"
-                    />
+            <motion.div key={project.slug} variants={item} className="h-full">
+              <Link
+                href={`/projects/${project.slug}`}
+                className="group block h-full"
+              >
+                <div className="flex h-full flex-col overflow-hidden rounded-lg border bg-card transition-colors hover:border-primary/50">
+                  <div className="relative aspect-video overflow-hidden bg-muted">
+                    {project.images[0] ? (
+                      <Image
+                        src={project.images[0]}
+                        alt={project.title}
+                        fill
+                        sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                        className="object-cover transition-transform duration-300 group-hover:scale-105"
+                      />
+                    ) : (
+                      <div className="flex h-full w-full items-center justify-center text-xs text-muted-foreground">
+                        No preview
+                      </div>
+                    )}
                   </div>
-                  <div className="p-4">
-                    <h3 className="font-semibold">{project.title}</h3>
-                    <p className="text-sm text-muted-foreground">
+                  <div className="flex flex-1 flex-col gap-1 p-4">
+                    <h3 className="font-semibold group-hover:text-primary transition-colors">
+                      {project.title}
+                    </h3>
+                    <p className="text-sm text-muted-foreground line-clamp-3">
                       {project.description}
                     </p>
                   </div>

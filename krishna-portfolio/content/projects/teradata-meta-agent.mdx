@@ -1,0 +1,51 @@
+---
+title: "Teradata Meta-Tooling Agent"
+slug: "teradata-meta-agent"
+date: "2026-04-15"
+description: "A LangGraph meta-agent I built on-site at Teradata that generates the tools and skills the product's homepage chatbot needs, automatically, the moment a new feature ships through CI/CD."
+tech: ["Python", "LangGraph", "LangChain", "LLMs", "CI/CD", "FastAPI", "Docker"]
+demo: ""
+repo: ""
+images:
+  - "/projects/teradata-meta-agent/1.jpeg"
+featured: true
+---
+
+## The problem
+
+The Teradata product has a customer-facing chatbot on its homepage. That chatbot talks to real users and needs a set of **tools and skills** to answer questions and take actions on their behalf. Things like "show me last month's usage", "provision a warehouse", "explain this error", "walk me through the new dashboard."
+
+Here's the catch. Every time the product shipped a new feature (a new API, a new UI capability, an updated schema), somebody had to sit down and hand-write the tools and register them with the chatbot. Prompts, argument schemas, natural-language descriptions, validation, the lot. That's slow, it's fragile, and it means the chatbot is always a few weeks behind what the product can actually do.
+
+## What the meta-agent does
+
+During my on-site AI Engineer internship at **Teradata**, I built a **meta-tooling agent** that plugs directly into the product's CI/CD pipeline and closes that gap.
+
+- It **listens for feature rollouts** on the CI/CD system (new APIs, updated schemas, new UI capabilities).
+- For each new capability, it **synthesises the tools and skills** the chatbot needs. Tool schemas, argument validators, and the natural-language descriptions the LLM uses for tool selection.
+- It runs a **self-critique loop** on every generated tool. That means checking the schema against the source spec, running the tool descriptions past a critic prompt, and rejecting anything that fails.
+- Only after that gate does it **register the tools into the chatbot's runtime**, so the moment a feature is live in production, users can talk to it.
+
+The rule I built the whole thing around: the chatbot must **never** call a tool the LLM hallucinated. The self-critique node exists specifically to enforce that. If the generated tool doesn't map cleanly onto the actual feature spec, it's dropped and the pipeline is flagged.
+
+## Stack and design
+
+- **LangGraph** for the agent orchestration. Explicit state at every edge (`spec_ingest`, `tool_synthesis`, `critic`, `register`), with retry loops on the synthesis node.
+- **FastAPI** service that receives rollout events from the internal CI/CD system.
+- **Docker** for packaging. The whole thing runs inside Teradata's internal environment.
+- Structured logging on every graph transition, so a failed rollout can be traced end to end.
+
+## What was genuinely hard
+
+Working on-site with a real product team meant the constraints were unlike anything I'd built before.
+
+- **Internal auth and review gates.** Nothing ships to the live chatbot without passing through the existing review flow. The agent had to fit into that, not around it.
+- **Prompt-injection concerns on generated content.** The chatbot's tool descriptions are used by the LLM for routing. Anything malicious in a spec could steer it. Sanitising inputs and constraining the output schema was as much of the work as the "AI" part.
+- **Idempotency.** Rollouts can retry. The registration step has to be safe to run twice without ending up with duplicate tools or half-updated schemas.
+- **The "never hallucinate a tool" rule.** This drove the whole architecture. Every intermediate output is validated against the source spec before it's allowed to progress.
+
+## Why this project mattered for me
+
+This is the project that pulled me from "full-stack dev who dabbles in AI" into actually building **AI agents as a discipline**. Thinking about them the way you'd think about any other production system: state, failure modes, retries, audit trails.
+
+It's also the first time I've shipped something that other engineers at a big company depend on daily. That changes how you write code.

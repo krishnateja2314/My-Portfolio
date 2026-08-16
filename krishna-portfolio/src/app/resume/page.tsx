@@ -12,7 +12,7 @@ export default function ResumePage() {
     hidden: { opacity: 0 },
     show: {
       opacity: 1,
-      transition: { staggerChildren: 0.1 },
+      transition: { staggerChildren: 0.08 },
     },
   };
 
@@ -20,6 +20,129 @@ export default function ResumePage() {
     hidden: { opacity: 0, y: 20 },
     show: { opacity: 1, y: 0 },
   };
+
+  const skillGroups: { title: string; skills: string[] }[] = [
+    {
+      title: "AI & Agents",
+      skills: [
+        "LangGraph",
+        "LangChain",
+        "Ollama",
+        "LLM Tooling",
+        "RAG",
+        "Agent Orchestration",
+      ],
+    },
+    {
+      title: "Languages",
+      skills: ["Python", "TypeScript", "JavaScript", "Go", "C/C++", "Java", "SQL"],
+    },
+    {
+      title: "Backend",
+      skills: [
+        "FastAPI",
+        "Node.js",
+        "Express",
+        "MongoDB",
+        "PostgreSQL",
+        "MySQL",
+      ],
+    },
+    {
+      title: "Frontend",
+      skills: [
+        "Next.js",
+        "React",
+        "Tailwind CSS",
+        "TanStack Query",
+        "Zustand",
+        "Framer Motion",
+      ],
+    },
+    {
+      title: "Tooling",
+      skills: ["Docker", "Nginx", "CI/CD", "Git", "Vercel", "Netlify"],
+    },
+  ];
+
+  const experience: {
+    title: string;
+    org: string;
+    period: string;
+    bullets: string[];
+  }[] = [
+    {
+      title: "AI Engineer Intern (On-site)",
+      org: "Teradata",
+      period: "2026",
+      bullets: [
+        "Built a LangGraph-based meta-tooling agent that auto-generates tools and skills for the product's homepage chatbot whenever a new feature ships through CI/CD.",
+        "Designed a self-critique loop and validation gate so generated tools are verified before they reach the live chatbot runtime.",
+        "Integrated the agent with internal CI/CD via a FastAPI service; shipped as a Docker service inside Teradata's environment.",
+      ],
+    },
+    {
+      title: "Full-Stack Intern",
+      org: "Noted",
+      period: "Feb 2025 to Present",
+      bullets: [
+        "Owned a large slice of a multi-tenant SaaS control panel. Roughly 10k lines across backend and frontend, 13 MongoDB models, and 20+ API endpoints.",
+        "Built a domain-hierarchical policy engine (tenant, domain, sub-domain) with automatic threshold enforcement and full audit trails.",
+        "Frontend on React 18 + TypeScript + Vite with TanStack Router/Query and Zustand; backend on Node.js + Express 5 + MongoDB with JWT, TOTP, and Google OAuth.",
+      ],
+    },
+    {
+      title: "Web Dev Head",
+      org: "Diesta, IIT Hyderabad",
+      period: "Sep 2024 to Feb 2025",
+      bullets: [
+        "Led a team of six to build the official interdepartmental fest portal with live event tracking and result management.",
+        "Used Next.js with Excel-as-DB for zero-friction updates by non-tech organizers; handled domain setup and SEO.",
+      ],
+    },
+    {
+      title: "Core Developer",
+      org: "Lambda Web Dev Club, IIT Hyderabad",
+      period: "Aug 2024 to Apr 2025",
+      bullets: [
+        "Built a static site for Cepheid using Hugo + Go so non-devs could update content via Markdown.",
+        "Shipped a full-stack MERN cricket tournament manager and automated club emails with Google Apps Script.",
+      ],
+    },
+  ];
+
+  const projects: { title: string; desc: string; stack: string[] }[] = [
+    {
+      title: "PEAD-X: Quant Trading Bot",
+      desc: "A production bot that trades Post-Earnings Announcement Drift on Indian equities. Local AI extraction pipeline (Ollama + Qwen 2.5), real-time Fyers WebSocket monitor, multi-tier exits, strict risk controls.",
+      stack: ["Python", "FastAPI", "Next.js", "LangGraph", "Ollama", "PostgreSQL"],
+    },
+    {
+      title: "Teradata Meta-Tooling Agent",
+      desc: "LangGraph agent that generates chatbot tools automatically on every CI/CD rollout, with a self-critique gate before deployment.",
+      stack: ["Python", "LangGraph", "FastAPI", "Docker"],
+    },
+    {
+      title: "Tenant Configuration Control Panel",
+      desc: "Multi-tenant SaaS for auth, attendance, and academic-policy enforcement with domain-hierarchical policy resolution and lazy user linking.",
+      stack: ["React", "TypeScript", "Node.js", "Express", "MongoDB"],
+    },
+    {
+      title: "Real-Time Video Upscaling & Frame Generation",
+      desc: "Research project on live video super-resolution and frame interpolation. Benchmarked PSNR/SSIM against latency budgets.",
+      stack: ["Python", "PyTorch", "CUDA", "OpenCV"],
+    },
+    {
+      title: "Cricket Tournament Management App",
+      desc: "Full-stack tournament manager with live scoring, role-based access, and admin portal.",
+      stack: ["React", "FastAPI", "MySQL", "Nginx"],
+    },
+    {
+      title: "Cepheid IITH: Astronomy Club Site",
+      desc: "A static site built with Hugo and Go so non-devs on the club team can update content with plain Markdown.",
+      stack: ["Hugo", "Go", "Netlify"],
+    },
+  ];
 
   return (
     <div className="container py-12 px-4 md:px-6 md:py-16">
@@ -29,7 +152,7 @@ export default function ResumePage() {
             Resume
           </h1>
           <p className="mt-2 text-muted-foreground">
-            My professional experience and skills
+            My professional experience, projects, and skills
           </p>
         </div>
         <Button asChild className="w-full sm:w-auto">
@@ -51,18 +174,16 @@ export default function ResumePage() {
           <motion.div variants={item} className="space-y-4">
             <h2 className="text-xl font-semibold">Contact</h2>
             <div className="space-y-2 text-sm text-muted-foreground">
-              <p>📍 Hyderabad, India</p>
+              <p>Hyderabad, India</p>
               <p>
-                📧{" "}
                 <a
                   href="mailto:cs23btech11028@iith.ac.in"
-                  className="text-foreground hover:underline"
+                  className="text-foreground hover:underline break-all"
                 >
                   cs23btech11028@iith.ac.in
                 </a>
               </p>
               <p>
-                📞{" "}
                 <a
                   href="tel:+916304403876"
                   className="text-foreground hover:underline"
@@ -71,7 +192,6 @@ export default function ResumePage() {
                 </a>
               </p>
               <p>
-                💻{" "}
                 <a
                   href="https://github.com/krishnateja2314"
                   target="_blank"
@@ -82,7 +202,6 @@ export default function ResumePage() {
                 </a>
               </p>
               <p>
-                🔗{" "}
                 <a
                   href="https://www.linkedin.com/in/krishna-teja-pulipati-1b9574323"
                   target="_blank"
@@ -97,27 +216,20 @@ export default function ResumePage() {
 
           <motion.div variants={item} className="space-y-4">
             <h2 className="text-xl font-semibold">Skills</h2>
-            <div className="flex flex-wrap gap-2">
-              {[
-                "Java",
-                "Python",
-                "C/C++",
-                "JavaScript",
-                "Go",
-                "HTML/CSS",
-                "SQL",
-                "React",
-                "Node.js",
-                "Express.js",
-                "FastAPI",
-                "Hugo",
-                "Git",
-                "VS Code",
-                "PyCharm",
-              ].map((skill) => (
-                <Badge key={skill} variant="outline">
-                  {skill}
-                </Badge>
+            <div className="space-y-4">
+              {skillGroups.map((group) => (
+                <div key={group.title}>
+                  <h3 className="text-xs font-semibold uppercase tracking-wide text-muted-foreground mb-2">
+                    {group.title}
+                  </h3>
+                  <div className="flex flex-wrap gap-1.5">
+                    {group.skills.map((skill) => (
+                      <Badge key={skill} variant="outline" className="text-xs">
+                        {skill}
+                      </Badge>
+                    ))}
+                  </div>
+                </div>
               ))}
             </div>
           </motion.div>
@@ -126,12 +238,14 @@ export default function ResumePage() {
             <h2 className="text-xl font-semibold">Education</h2>
             <div className="space-y-4 text-sm text-muted-foreground">
               <div>
-                <h3 className="font-medium">IIT Hyderabad</h3>
-                <p>BTech in Computer Science (2023 – 2027)</p>
+                <h3 className="font-medium text-foreground">IIT Hyderabad</h3>
+                <p>B.Tech in Computer Science (2023 to 2027)</p>
               </div>
               <div>
-                <h3 className="font-medium">Sri Chaitanya Jr College</h3>
-                <p>MPC (2021 – 2023)</p>
+                <h3 className="font-medium text-foreground">
+                  Sri Chaitanya Jr College
+                </h3>
+                <p>MPC (2021 to 2023)</p>
               </div>
             </div>
           </motion.div>
@@ -147,101 +261,45 @@ export default function ResumePage() {
           <motion.div variants={item} className="space-y-4">
             <h2 className="text-xl font-semibold">Experience</h2>
 
-            {/* Noted */}
-            <Card>
-              <CardHeader className="pb-2">
-                <CardTitle className="text-base">Web Intern</CardTitle>
-                <p className="text-sm text-muted-foreground">
-                  Noted · Feb 2025 – Present
-                </p>
-              </CardHeader>
-              <CardContent className="text-sm">
-                <ul className="list-disc pl-4 space-y-2">
-                  <li>Working on full-stack features for a startup product.</li>
-                </ul>
-              </CardContent>
-            </Card>
-
-            {/* Diesta */}
-            <Card>
-              <CardHeader className="pb-2">
-                <CardTitle className="text-base">
-                  Web Dev Head · Diesta
-                </CardTitle>
-                <p className="text-sm text-muted-foreground">
-                  IIT Hyderabad · Sep 2024 – Feb 2024
-                </p>
-              </CardHeader>
-              <CardContent className="text-sm">
-                <ul className="list-disc pl-4 space-y-2">
-                  <li>
-                    Built a live event-tracking portal for campus competitions.
-                  </li>
-                  <li>
-                    Used Next.js and Google APIs. Hosted and maintained with
-                    custom domain.
-                  </li>
-                </ul>
-              </CardContent>
-            </Card>
-
-            {/* Lambda */}
-            <Card>
-              <CardHeader className="pb-2">
-                <CardTitle className="text-base">
-                  Core Developer · Lambda Club
-                </CardTitle>
-                <p className="text-sm text-muted-foreground">
-                  IIT Hyderabad · Aug 2024 – Apr 2024
-                </p>
-              </CardHeader>
-              <CardContent className="text-sm">
-                <ul className="list-disc pl-4 space-y-2">
-                  <li>Built a static website with Hugo and Go.</li>
-                  <li>Developed a full-stack web app using MERN stack.</li>
-                  <li>Automated emails using Google Apps Script.</li>
-                </ul>
-              </CardContent>
-            </Card>
+            {experience.map((role) => (
+              <Card key={`${role.title}-${role.org}`}>
+                <CardHeader className="pb-2">
+                  <CardTitle className="text-base">
+                    {role.title} · {role.org}
+                  </CardTitle>
+                  <p className="text-sm text-muted-foreground">{role.period}</p>
+                </CardHeader>
+                <CardContent className="text-sm">
+                  <ul className="list-disc pl-4 space-y-2">
+                    {role.bullets.map((b, i) => (
+                      <li key={i}>{b}</li>
+                    ))}
+                  </ul>
+                </CardContent>
+              </Card>
+            ))}
           </motion.div>
 
           <Separator />
 
           {/* Projects */}
           <motion.div variants={item} className="space-y-4">
-            <h2 className="text-xl font-semibold">Projects</h2>
-            <div className="space-y-6 text-sm">
-              {[
-                {
-                  title: "Event Management Web App",
-                  desc: "Full-stack app using React, MongoDB, Express.js. Auth and REST API implemented.",
-                  stack: ["React", "Express.js", "MongoDB", "Git"],
-                },
-                {
-                  title: "Cricket Tournament Management App",
-                  desc: "Role-based score manager and viewer portal using FastAPI and React.",
-                  stack: ["FastAPI", "React", "MySQL"],
-                },
-                {
-                  title: "Cepheid Club Website",
-                  desc: "Static site using Hugo. Designed for non-devs to update via Markdown.",
-                  stack: ["Hugo", "Go", "Git"],
-                },
-                {
-                  title: "Assembly Code Simulator",
-                  desc: "Built RISC-V architecture simulator with cache/memory simulation in C++.",
-                  stack: ["C++"],
-                },
-              ].map((proj) => (
-                <Card key={proj.title}>
+            <h2 className="text-xl font-semibold">Selected Projects</h2>
+            <div className="grid gap-4 text-sm sm:grid-cols-2">
+              {projects.map((proj) => (
+                <Card key={proj.title} className="h-full">
                   <CardHeader className="pb-2">
                     <CardTitle className="text-base">{proj.title}</CardTitle>
                   </CardHeader>
                   <CardContent>
-                    <p className="mb-2">{proj.desc}</p>
-                    <div className="flex flex-wrap gap-2 mt-2">
+                    <p className="mb-3 text-muted-foreground">{proj.desc}</p>
+                    <div className="flex flex-wrap gap-1.5">
                       {proj.stack.map((tech) => (
-                        <Badge key={tech} variant="secondary">
+                        <Badge
+                          key={tech}
+                          variant="secondary"
+                          className="text-xs"
+                        >
                           {tech}
                         </Badge>
                       ))}
@@ -259,14 +317,16 @@ export default function ResumePage() {
             <h2 className="text-xl font-semibold">Extracurriculars</h2>
             <div className="space-y-4 text-sm text-muted-foreground">
               <div>
-                <h3 className="font-medium">Annual Fest Coordinator</h3>
-                <p>IIT Hyderabad · Aug 2024 – Mar 2025</p>
+                <h3 className="font-medium text-foreground">
+                  Annual Fest Coordinator
+                </h3>
+                <p>IIT Hyderabad · Aug 2024 to Mar 2025</p>
               </div>
               <div>
-                <h3 className="font-medium">
+                <h3 className="font-medium text-foreground">
                   Core Member · Glitch Club (Gaming)
                 </h3>
-                <p>IIT Hyderabad · Aug 2024 – Mar 2025</p>
+                <p>IIT Hyderabad · Aug 2024 to Mar 2025</p>
               </div>
             </div>
           </motion.div>

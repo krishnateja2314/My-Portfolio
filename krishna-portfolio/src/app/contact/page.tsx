@@ -64,19 +64,9 @@ export default function ContactPage() {
         description: "Something went wrong. Try again later.",
       });
       console.error("Error:", error);
+    } finally {
+      setIsSubmitting(false);
     }
-
-    toast.success("Message sent!", {
-      description: "Thank you for your message. I'll get back to you soon.",
-    });
-
-    setFormData({
-      name: "",
-      email: "",
-      subject: "",
-      message: "",
-    });
-    setIsSubmitting(false);
   };
 
   return (

@@ -1,0 +1,40 @@
+---
+title: "Real-Time Video Upscaling & Frame Generation"
+slug: "video-upscale"
+date: "2025-08-05"
+description: "A research project on real-time super-resolution and frame interpolation for live video. Benchmarks reconstruction quality against strict per-frame latency budgets across model variants."
+tech: ["Python", "PyTorch", "CUDA", "OpenCV", "NumPy"]
+demo: ""
+repo: "/projects/video-upscale/report.pdf"
+images:
+  - "/projects/video-upscale/1.png"
+  - "/projects/video-upscale/2.png"
+  - "/projects/video-upscale/3.png"
+  - "/projects/video-upscale/4.png"
+featured: false
+---
+
+## The problem
+
+A research project on **real-time video upscaling and frame interpolation**. The goal was to take low-resolution, low-framerate input and produce higher-resolution, smoother output *fast enough to run on live video*.
+
+The interesting constraint isn't quality on its own. Anyone can win PSNR if they're allowed to spend seconds per frame. The interesting constraint is **quality under a strict per-frame latency budget**. A model that gives you a 2 dB PSNR boost is worthless if it can't hit frame time.
+
+## What I explored
+
+- **Super-resolution.** Per-frame upscaling networks, comparing reconstructed frames against ground truth on standard metrics.
+- **Frame interpolation.** Synthesising intermediate frames between input frames to lift perceived framerate without touching the source content.
+- **The latency vs. quality trade-off.** The whole point. Every model variant was scored on both quality *and* end-to-end frame time under identical hardware conditions.
+
+## What the screenshots show
+
+- **1. Interpolation output.** A generated intermediate frame between two source frames.
+- **2. Side-by-side comparison.** Native vs. upscaled and interpolated output for the same clip.
+- **3. PSNR distribution.** The full PSNR histogram across the test set, showing not just the mean but the *shape*. An average number hides a lot of variance you care about in production.
+- **4. Latency graph.** End-to-end frame latency for the different model variants under the same input resolution and batch size. This is what actually decides which model ships.
+
+## What I actually learned
+
+Real-time ML is a different discipline from offline ML. The moment you have a frame budget, the shape of the network changes. Fewer wider layers beat deeper stacks, kernel choices are driven by memory bandwidth more than receptive field, and the pre and post-processing cost stops being a rounding error and starts dominating.
+
+The full methodology, benchmarks, and results are in the accompanying [PDF report](/projects/video-upscale/report.pdf).

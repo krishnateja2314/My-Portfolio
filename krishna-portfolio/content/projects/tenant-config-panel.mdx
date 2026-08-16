@@ -1,0 +1,90 @@
+---
+title: "Tenant Configuration Control Panel"
+slug: "tenant-config-panel"
+date: "2025-11-20"
+description: "A multi-tenant SaaS control panel for auth, attendance, and academic-policy enforcement. Around 10k lines of production code across backend and frontend, and the project that pushed me from writing features to designing systems."
+tech: ["React 18", "TypeScript", "Vite", "TanStack Router", "TanStack Query", "Zustand", "Tailwind CSS", "Material UI", "Node.js", "Express 5", "MongoDB", "Mongoose", "JWT", "Speakeasy", "Google OAuth"]
+demo: ""
+repo: ""
+images:
+  - "/projects/tenant-config-panel/1.png"
+  - "/projects/tenant-config-panel/2.png"
+featured: false
+---
+
+## What this system is
+
+The Tenant Configuration Control Panel is a multi-tenant SaaS platform that lets organisations run their **own authentication, attendance, and academic-policy enforcement** from a single control plane. It's what I've been building through my ongoing internship at **Noted**.
+
+It's the largest single system I've shipped. Around 10,000+ lines of production code, 13 MongoDB models, 20+ API endpoints, and the one that taught me the most about designing for real users with conflicting requirements.
+
+The four user personas the system serves:
+
+- **Tenant admins** configure system-wide auth policies and create attendance events.
+- **Domain admins** override policies for their specific department, batch, or section.
+- **Users and students** mark attendance, complete auth flows, manage their profiles.
+- **Auditors** monitor enforcement decisions and compliance.
+
+## Backend
+
+- **Node.js + Express 5** with ES modules.
+- **MongoDB 9.3 + Mongoose** covering 13 collections including `Admin`, `User`, `AuthConfig`, `Domain`, `DomainAuthConfig`, `AcademicPolicy`, `AttendanceEvent`, `AttendanceSession`, `AttendanceRecord`, `AuditLog`, `MailingList`, `Client`, and `Infrastructure`.
+- **JWT** for admin sessions, **bcrypt** for password hashing, **Speakeasy** for TOTP / MFA.
+- **Google OAuth** for social login, and 2048-bit RSA key pairs for external API flows.
+- CORS whitelisting, rate limiting, IP whitelisting, domain-based access control, and async audit logging as first-class middleware.
+- **nodemailer** for email verification and enforcement notifications.
+
+## Frontend
+
+- **React 18 + TypeScript on Vite** for the build.
+- **TanStack Router** for routing and **TanStack Query** for async state. Cached, invalidated, and refetched in one place instead of scattered `useEffect`s.
+- **Zustand** for global state where it actually needed to be global. Everything else stays local.
+- **Tailwind CSS** with **Material UI** for the heavier components (data tables, dialogs) and **Framer Motion** for the polish.
+- **QRCode** generation for attendance links. **Lucide** for icons.
+
+## The four things that were actually hard
+
+### 1. Domain-hierarchical policy resolution
+
+Policies can be defined at the tenant level, the domain level, or nested sub-domain levels, and any of them can override the level above:
+
+```
+Tenant (75%)
+├── CS Dept (80%)         # overrides tenant
+│   ├── 2024 Batch (85%)  # overrides dept
+│   │   └── Section A     # inherits 85% from batch
+│   └── 2023 Batch        # inherits 80% from dept
+└── Mech Dept (90%)
+```
+
+The resolver walks the domain's parent chain and returns the first policy it finds, falling back to the tenant default (75%). It's O(log n) on the tree depth, memoised for hot domains, and defensively detects circular references. Every resolution decision is written to the audit log.
+
+### 2. Lazy-linked user tracking
+
+Pre-populating every user × every session as `ABSENT` doesn't scale. Most users will never touch most events. Instead, records are created **lazily on first interaction**. The first time a user marks or verifies attendance for an event, the system back-fills `ABSENT` records for every already-completed session of that event for that user. The attendance percentage stays accurate without ever pre-computing anything.
+
+### 3. Time-window validation
+
+Users should only be able to mark attendance during the actual session window. The validation endpoint returns granular reasons (`too_early`, `too_late`, or the number of minutes remaining), and the frontend uses that to drive a countdown UI. All comparisons are full ISO 8601 DateTimes, so timezone handling is boring rather than terrifying.
+
+### 4. Attendance percentage that only counts completed sessions
+
+A subtle rule: percentages should only count sessions where `endAt <= now`. Otherwise a student who's absent from the *current* live session gets penalised before the session is even over. Getting that right meant reworking the aggregation pipeline so it filters at the Mongo layer, not in JavaScript.
+
+## API surface
+
+Roughly 20+ endpoints across:
+
+- **`/api/admin`** for signup, login, MFA verify, session.
+- **`/api/auth-config`** to fetch, update, cascade to domain overrides, validate.
+- **`/api/domains`** for CRUD on the hierarchy.
+- **`/api/attendance-events`** to create events, list, get details, check window, bulk CSV import.
+- **`/api/mark-attendance`** for marking and third-party verification.
+- **`/api/academic-policies`** for CRUD plus resolving the effective policy for a domain.
+- **`/api/audit-logs`** for paginated logs (per student, per domain, enforcement stats).
+- **`/api/central-auth`** for identify, signup, login, OTP verify on end users.
+- **`/api/external`** for external tenant creation and public auth-config fetch.
+
+## Why the project mattered
+
+This is where I stopped thinking of myself as "someone who ships features" and started designing systems. Policy resolution engines, audit trails as first-class citizens, lazy patterns that scale without asking the DB to do more work. It's also the codebase that made me care about **types end to end**. TypeScript on the frontend, strict Mongoose schemas on the backend, and validation at every edge.

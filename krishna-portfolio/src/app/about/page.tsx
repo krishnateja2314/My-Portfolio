@@ -11,7 +11,7 @@ export default function AboutPage() {
     show: {
       opacity: 1,
       transition: {
-        staggerChildren: 0.1,
+        staggerChildren: 0.08,
       },
     },
   };
@@ -21,21 +21,57 @@ export default function AboutPage() {
     show: { opacity: 1, y: 0 },
   };
 
-  const skills = [
-    "Next.js",
-    "React",
-    "TypeScript",
-    "JavaScript",
-    "FastAPI",
-    "Node.js",
-    "MySQL",
-    "MongoDB",
-    "Hugo",
-    "Tailwind CSS",
-    "Git",
-    "Netlify",
-    "Vercel",
-    "express.js",
+  const skillGroups: { title: string; skills: string[] }[] = [
+    {
+      title: "AI & Agents",
+      skills: [
+        "LangGraph",
+        "LangChain",
+        "Ollama",
+        "LLM Tooling",
+        "RAG",
+        "Prompt Design",
+        "Agent Orchestration",
+      ],
+    },
+    {
+      title: "Backend",
+      skills: [
+        "Python",
+        "FastAPI",
+        "Node.js",
+        "Express",
+        "MongoDB",
+        "PostgreSQL",
+        "MySQL",
+        "REST APIs",
+      ],
+    },
+    {
+      title: "Frontend",
+      skills: [
+        "Next.js",
+        "React",
+        "TypeScript",
+        "Tailwind CSS",
+        "TanStack Query",
+        "Zustand",
+        "Framer Motion",
+      ],
+    },
+    {
+      title: "Systems & Tooling",
+      skills: [
+        "Go",
+        "C/C++",
+        "Docker",
+        "Nginx",
+        "Git",
+        "CI/CD",
+        "Netlify",
+        "Vercel",
+      ],
+    },
   ];
 
   return (
@@ -52,42 +88,59 @@ export default function AboutPage() {
               About Me
             </h1>
             <p className="mt-4 text-muted-foreground">
-              A little more about who I am, what I do, and how I got here.
+              A little more about who I am, what I build, and where I&apos;m
+              headed.
             </p>
           </div>
 
           <div className="space-y-4">
             <h2 className="text-2xl font-semibold">My Story</h2>
             <p className="leading-relaxed">
-              Ever since my dad brought home a laptop, I’ve been hooked on
-              gaming. From puzzles to boss fights, games have always been more
-              than entertainment they’ve shaped how I think, solve problems, and
-              approach challenges. I genuinely believe gaming sharpened my
-              critical thinking from a young age.
+              Ever since my dad brought home a laptop, I&apos;ve been hooked on
+              gaming. From puzzles to boss fights, games were never just
+              entertainment for me. They shaped the way I think, the way I
+              solve problems, the way I sit with a hard thing until it
+              cracks. I still genuinely believe gaming sharpened my thinking
+              from a young age.
             </p>
             <p className="leading-relaxed">
-              I got my PS4 in 9th grade right when the world was hit by COVID.
-              For a kid who loved games, it was a dream come true. I played a
-              lot during 9th and 10th, but when 11th grade hit, a switch
-              flipped. I realized gaming wouldn’t get me anywhere unless I
-              focused. That’s when I made a decision I’m going to crack IIT.
+              I got my PS4 in 9th grade, right when COVID hit. For a kid who
+              loved games, it was a dream come true. I played a lot in 9th
+              and 10th. Then 11th grade started and something flipped. I
+              looked around and made a decision: I&apos;m going to crack IIT.
             </p>
             <p className="leading-relaxed">
-              With my dad always pushing me to aim higher and the puzzle-solving
-              mindset gaming gave me, I made it. I cracked into{" "}
-              <span className="font-semibold">IIT Hyderabad</span> , and from
-              there, a new chapter began: development.
+              Between my dad pushing me to aim higher and the puzzle-solving
+              habit gaming had drilled into me, I got there. I cracked into{" "}
+              <span className="font-semibold">IIT Hyderabad</span>, and a new
+              chapter opened up: development.
             </p>
             <p className="leading-relaxed">
-              I started learning web dev during my semester break not from
-              courses, but from YouTube. That curiosity turned into passion. I
-              joined the Lambda web dev club, built sites for Diesta and
-              Cepheid, and created a full-stack cricket scoring app for our DBMS
-              project.
+              I started learning web dev in my semester break, not from any
+              structured course, but from YouTube and a lot of stubborn
+              trial and error. Curiosity turned into obsession pretty
+              quickly. I joined the Lambda web dev club, shipped sites for
+              Diesta and Cepheid, and built a full-stack cricket scoring
+              app for our DBMS project.
             </p>
             <p className="leading-relaxed">
-              Today, I’m still gaming. But now I’m also building. Creating.
-              Learning. That balance of play and purpose is what keeps me going.
+              Over the last year the ground moved under me. I started
+              spending more and more time on{" "}
+              <span className="font-semibold">AI and agentic systems</span>.
+              Building tool-calling agents, wiring up LangGraph, poking at
+              how far LLMs can actually be trusted to drive real systems.
+              That interest turned into an on-site AI Engineer internship
+              at <span className="font-semibold">Teradata</span>, where I
+              built a meta-tooling agent that generates the tools the
+              product&apos;s chatbot needs, automatically, whenever a new
+              feature ships through CI/CD.
+            </p>
+            <p className="leading-relaxed">
+              I still think of myself as a full-stack engineer at heart. I
+              like being able to ship the whole thing. But the direction
+              I&apos;m pushing hardest in right now is{" "}
+              <span className="font-semibold">AI agents</span>. Still
+              exploring, still building.
             </p>
           </div>
         </motion.div>
@@ -96,13 +149,14 @@ export default function AboutPage() {
           initial={{ opacity: 0, scale: 0.9 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.5, delay: 0.2 }}
-          className="flex items-center justify-center"
+          className="flex items-start justify-center"
         >
-          <div className="relative aspect-square w-full max-w-md overflow-hidden rounded-2xl border">
+          <div className="relative aspect-square w-full max-w-md overflow-hidden rounded-2xl border shadow-sm">
             <Image
               src="/about.jpg"
               alt="Krishna Teja"
               fill
+              sizes="(max-width: 768px) 100vw, 400px"
               className="object-cover"
             />
           </div>
@@ -113,49 +167,67 @@ export default function AboutPage() {
         variants={container}
         initial="hidden"
         whileInView="show"
+        viewport={{ once: true }}
         className="mt-16 space-y-8"
       >
         <div>
-          <h2 className="text-2xl font-semibold">Skills & Expertise</h2>
+          <h2 className="text-2xl font-semibold">Skills &amp; Expertise</h2>
           <p className="mt-2 text-muted-foreground">
-            Technologies and tools I use regularly
+            Technologies and tools I reach for regularly
           </p>
         </div>
 
-        <div className="flex flex-wrap gap-2">
-          {skills.map((skill) => (
-            <motion.div key={skill} variants={item}>
-              <Badge variant="secondary" className="px-3 py-1 text-sm">
-                {skill}
-              </Badge>
+        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+          {skillGroups.map((group) => (
+            <motion.div key={group.title} variants={item}>
+              <Card className="h-full">
+                <CardContent className="pt-6 space-y-3">
+                  <h3 className="font-semibold text-sm uppercase tracking-wide text-muted-foreground">
+                    {group.title}
+                  </h3>
+                  <div className="flex flex-wrap gap-2">
+                    {group.skills.map((skill) => (
+                      <Badge
+                        key={skill}
+                        variant="secondary"
+                        className="px-2.5 py-0.5 text-xs"
+                      >
+                        {skill}
+                      </Badge>
+                    ))}
+                  </div>
+                </CardContent>
+              </Card>
             </motion.div>
           ))}
         </div>
 
         <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
           <motion.div variants={item}>
-            <Card>
+            <Card className="h-full">
               <CardContent className="pt-6">
                 <h3 className="font-semibold mb-2">Education</h3>
-                <p className="text-sm text-muted-foreground">
-                  B.Tech in Computer Science & Engineering
+                <p className="text-sm text-muted-foreground leading-relaxed">
+                  B.Tech in Computer Science &amp; Engineering
                   <br />
-                  Indian Institute of Technology Hyderabad (2023–2027)
+                  Indian Institute of Technology Hyderabad (2023 to 2027)
                   <br />
-                  Sri Chaitanya Junior College, Hyderabad (2021–2023)
+                  Sri Chaitanya Junior College, Hyderabad (2021 to 2023)
                 </p>
               </CardContent>
             </Card>
           </motion.div>
 
           <motion.div variants={item}>
-            <Card>
+            <Card className="h-full">
               <CardContent className="pt-6">
                 <h3 className="font-semibold mb-2">Experience</h3>
-                <p className="text-sm text-muted-foreground">
-                  Web Intern @ Noted (Feb 2025 – Present)
+                <p className="text-sm text-muted-foreground leading-relaxed">
+                  AI Engineer Intern @ Teradata (on-site)
                   <br />
-                  Web Dev Lead @ Diesta Club, IITH
+                  Full-Stack Intern @ Noted
+                  <br />
+                  Web Dev Lead @ Diesta, IITH
                   <br />
                   Core Dev @ Lambda Web Dev Club
                 </p>
@@ -164,15 +236,15 @@ export default function AboutPage() {
           </motion.div>
 
           <motion.div variants={item}>
-            <Card>
+            <Card className="h-full">
               <CardContent className="pt-6">
-                <h3 className="font-semibold mb-2">Certifications</h3>
-                <p className="text-sm text-muted-foreground">
-                  Self-taught via YouTube & open-source projects.
+                <h3 className="font-semibold mb-2">How I Learn</h3>
+                <p className="text-sm text-muted-foreground leading-relaxed">
+                  Self-taught via YouTube, papers, and shipping things.
                   <br />
-                  Constantly learning by building.
+                  I learn a stack by building something real in it.
                   <br />
-                  Exploring new tech and tools.
+                  Currently: agentic systems and quant tooling.
                 </p>
               </CardContent>
             </Card>
